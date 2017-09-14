@@ -82,7 +82,7 @@
             </StackPane>
             <HBox alignment="CENTER_LEFT" VBox.vgrow="NEVER">
                <children>
-                  <Button fx:id="loadArchiveBtn" mnemonicParsing="false" text="Unpack">
+                  <Button fx:id="importBinaryBtn" mnemonicParsing="false" text="Import">
                      <tooltip>
                         <Tooltip text="Use this button to load your sprites from the sprites archive" />
                      </tooltip>
@@ -90,7 +90,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="writeSpriteBtn" mnemonicParsing="false" text="Build">
+                  <Button fx:id="exportBinaryBtn" mnemonicParsing="false" text="Export">
                      <tooltip>
                         <Tooltip text="Use this button to pack the sprites" />
                      </tooltip>
@@ -98,18 +98,12 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="loadSpriteBtn" mnemonicParsing="false" text="Load">
-                     <tooltip>
-                        <Tooltip text="Use this button to load actual images" />
-                     </tooltip>
+                  <Button fx:id="importImageBtn" mnemonicParsing="false" text="Import">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="dumpSpriteBtn" mnemonicParsing="false" text="Dump">
-                     <tooltip>
-                        <Tooltip text="Use this button to save all of your sprites to a directory" />
-                     </tooltip>
+                  <Button fx:id="exportImageBtn" mnemonicParsing="false" text="Export">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>

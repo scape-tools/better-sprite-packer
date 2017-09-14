@@ -20,51 +20,51 @@
 	-fx-text-fill: white;
 }
 
-#loadArchiveBtn {
-	-fx-graphic: url('/icons/load_icon.png');
+#importBinaryBtn {
+	-fx-graphic: url('/icons/import_binary_32.png');
 }
 
-#loadArchiveBtn:hover {
+#importBinaryBtn:hover {
 	-fx-background-color: #292929;
 }
 
-#loadArchiveBtn:pressed {
+#importBinaryBtn:pressed {
 	-fx-background-color: #1F1F1F;
 }
 
-#loadSpriteBtn {
-	-fx-graphic: url('/icons/find_icon.png');
+#exportBinaryBtn {
+	-fx-graphic: url('/icons/export_binary_32.png');
 }
 
-#loadSpriteBtn:hover {
+#exportBinaryBtn:hover {
     -fx-background-color: #292929;
 }
 
-#loadSpriteBtn:pressed {
+#exportBinaryBtn:pressed {
     -fx-background-color: #1F1F1F;
 }
 
-#writeSpriteBtn {
-	-fx-graphic: url('/icons/save_icon.png');
+#importImageBtn {
+	-fx-graphic: url('/icons/import_image_32.png');
 }
 
-#writeSpriteBtn:hover {
+#importImageBtn:hover {
     -fx-background-color: #292929;
 }
 
-#writeSpriteBtn:pressed {
+#importImageBtn:pressed {
     -fx-background-color: #1F1F1F;
 }
 
-#dumpSpriteBtn {
-	-fx-graphic: url('/icons/save_image_icon.png');
+#exportImageBtn {
+	-fx-graphic: url('/icons/export_image_32.png');
 }
 
-#dumpSpriteBtn:hover {
+#exportImageBtn:hover {
     -fx-background-color: #292929;
 }
 
-#dumpSpriteBtn:pressed {
+#exportImageBtn:pressed {
     -fx-background-color: #1F1F1F;
 }
 

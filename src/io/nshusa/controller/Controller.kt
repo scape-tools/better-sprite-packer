@@ -19,6 +19,11 @@ class Controller : Initializable {
     }
 
     @FXML
+    fun importImages() {
+
+    }
+
+    @FXML
     fun handleMouseDragged(event: MouseEvent) {
         var stage = App.mainStage
 
