@@ -1,18 +1,215 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
-   <children>
-      <Button mnemonicParsing="false" onAction="#sayHello" text="Click Me!" />
-      <Label fx:id="label">
-         <VBox.margin>
-            <Insets top="5.0" />
-         </VBox.margin>
-      </Label>
-   </children>
-</VBox>
+<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.nshusa.controller.Controller">
+   <left>
+      <VBox alignment="CENTER" BorderPane.alignment="TOP_CENTER">
+         <children>
+            <ListView fx:id="list" minHeight="274.0" minWidth="198.0" BorderPane.alignment="CENTER" VBox.vgrow="SOMETIMES">
+               <VBox.margin>
+                  <Insets left="5.0" top="5.0" />
+               </VBox.margin>
+               <contextMenu>
+                  <ContextMenu>
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Add" />
+                        <MenuItem mnemonicParsing="false"  text="Replace" />
+                        <MenuItem mnemonicParsing="false"  text="Remove" />
+                      <MenuItem fx:id="dumpSpriteMI" mnemonicParsing="false"  text="Dump" />
+                        <MenuItem fx:id="dumpAllSpritesMI" mnemonicParsing="false"  text="Dump All" />
+                        <MenuItem fx:id="viewDirectoryMI" mnemonicParsing="false"  text="View Directory" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu>
+            </ListView>
+            <TextField fx:id="searchTf" alignment="CENTER" promptText="Search..." style="-fx-background-image: url('images/search_icon.png');; -fx-background-repeat: no-repeat; -fx-background-position: left center;">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" top="5.0" />
+               </VBox.margin>
+               <tooltip>
+                  <Tooltip text="Use this to search for a sprite by its name or id" />
+               </tooltip>
+            </TextField>
+         </children>
+      </VBox>
+   </left>
+   <top>
+      <VBox>
+         <children>
+            <StackPane>
+               <children>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Label fx:id="titleLbl" text="Better Sprite Packer" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT">
+                     <children>
+                        <Button fx:id="minBtn" mnemonicParsing="false"  prefHeight="20.0" prefWidth="45.0">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="maxBtn" mnemonicParsing="false" prefHeight="20.0" prefWidth="45.0">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="closeBtn" mnemonicParsing="false"  prefHeight="20.0" prefWidth="45.0">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </StackPane>
+            <HBox alignment="CENTER_LEFT" VBox.vgrow="NEVER">
+               <children>
+                  <Button fx:id="loadArchiveBtn" mnemonicParsing="false"  text="Unpack">
+                     <tooltip>
+                        <Tooltip text="Use this button to load your sprites from the sprites archive" />
+                     </tooltip>
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="writeSpriteBtn" mnemonicParsing="false"  text="Build">
+                     <tooltip>
+                        <Tooltip text="Use this button to pack the sprites" />
+                     </tooltip>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="loadSpriteBtn" mnemonicParsing="false"  text="Load">
+                     <tooltip>
+                        <Tooltip text="Use this button to load actual images" />
+                     </tooltip>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="dumpSpriteBtn" mnemonicParsing="false"  text="Dump">
+                     <tooltip>
+                        <Tooltip text="Use this button to save all of your sprites to a directory" />
+                     </tooltip>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="clearBtn" mnemonicParsing="false" text="Clear">
+                     <tooltip>
+                        <Tooltip text="Use this button to clear this editor" />
+                     </tooltip>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <ColorPicker fx:id="colorPicker">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                     <tooltip>
+                        <Tooltip text="Use this to change the background color of your sprites" />
+                     </tooltip>
+                  </ColorPicker>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <VBox fx:id="rightVBox" alignment="TOP_CENTER" minWidth="-Infinity" BorderPane.alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
+               <children>
+                  <TitledPane minHeight="-Infinity" text="Information" VBox.vgrow="NEVER">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                     <content>
+                        <HBox>
+                           <children>
+                              <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <TextField fx:id="nameTf" alignment="CENTER" promptText="Name">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" />
+                                       </VBox.margin>
+                                       <tooltip>
+                                          <Tooltip text="This is the actual sprites name, whatever you set it to be" />
+                                       </tooltip>
+                                    </TextField>
+                                    <TextField fx:id="widthTf" alignment="CENTER" editable="false" promptText="Width">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" />
+                                       </VBox.margin>
+                                       <tooltip>
+                                          <Tooltip text="This is the sprites actual width" />
+                                       </tooltip>
+                                    </TextField>
+                                    <TextField fx:id="offsetXTf" alignment="CENTER" promptText="OffsetX">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" />
+                                       </VBox.margin>
+                                       <tooltip>
+                                          <Tooltip text="This is the sprites horizontal offset from the center of the image" />
+                                       </tooltip>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <TextField fx:id="indexTf" alignment="CENTER" editable="false" promptText="Index">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" right="5.0" />
+                                       </VBox.margin>
+                                       <tooltip>
+                                          <Tooltip text="This is the sprites unique id, no two sprites should have the same id" />
+                                       </tooltip>
+                                    </TextField>
+                                    <TextField fx:id="heightTf" alignment="CENTER" editable="false" promptText="Height">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" right="5.0" />
+                                       </VBox.margin>
+                                       <tooltip>
+                                          <Tooltip text="This is the sprites actual height" />
+                                       </tooltip>
+                                    </TextField>
+                                    <TextField fx:id="offsetYTf" alignment="CENTER" promptText="OffsetY">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" right="5.0" />
+                                       </VBox.margin>
+                                       <tooltip>
+                                          <Tooltip text="This is the sprites vertical offset from the center of the image" />
+                                       </tooltip>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </content>
+                  </TitledPane>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" prefViewportWidth="345.0" VBox.vgrow="ALWAYS">
+                     <content>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <ImageView fx:id="imageView" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </VBox>
+                     </content>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" />
+                     </VBox.margin>
+                  </ScrollPane>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
