@@ -2,15 +2,22 @@ import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
+import javafx.scene.image.Image
 import javafx.stage.Stage
+import javafx.stage.StageStyle
 
 class App : Application() {
 
     override fun start(stage: Stage?) {
         val root : Parent? = FXMLLoader.load(App.javaClass.getResource("/Main.fxml"))
-
-        stage?.title = "Hello world!"
-        stage?.scene = Scene(root)
+        stage?.title = "Better Sprite Packer"
+        val scene = Scene(root)
+        scene.stylesheets.add(App.javaClass.getResource("/style.css").toExternalForm())
+        stage?.scene = scene
+        stage?.icons?.add(Image(javaClass.getResourceAsStream("/icons/icon.png")))
+        stage?.centerOnScreen()
+        stage?.sizeToScene()
+        stage?.initStyle(StageStyle.UNDECORATED)
         stage?.show()
     }
 
