@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.nshusa.controller.Controller">
+<BorderPane fx:id="root" onMouseDragged="#handleMouseDragged" onMousePressed="#handleMousePressed" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.nshusa.controller.Controller">
    <left>
       <VBox alignment="CENTER" BorderPane.alignment="TOP_CENTER">
          <children>
