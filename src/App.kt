@@ -9,6 +9,7 @@ import javafx.stage.StageStyle
 class App : Application() {
 
     override fun start(stage: Stage?) {
+        App.mainStage = stage!!
         val root : Parent? = FXMLLoader.load(App.javaClass.getResource("/Main.fxml"))
         stage?.title = "Better Sprite Packer"
         val scene = Scene(root)
@@ -22,6 +23,9 @@ class App : Application() {
     }
 
     companion object {
+
+        lateinit var mainStage : Stage
+
         @JvmStatic
         fun main(args : Array<String>) {
             launch(App::class.java)

@@ -1,5 +1,6 @@
 package io.nshusa.controller
 
+import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.control.Label
@@ -8,20 +9,18 @@ import java.util.*
 
 class Controller : Initializable {
 
-    @FXML
-    var label : Label = Label()
-
     override fun initialize(location: URL?, resource: ResourceBundle?) {
 
     }
 
     @FXML
-    fun sayHello() {
-        if (label.text.isEmpty()) {
-            label.text = "Hello world!"
-        } else {
-            label.text = ""
-        }
+    fun minimizeProgram() {
+        App.mainStage.isIconified = true
+    }
+
+    @FXML
+    fun closeProgram() {
+        Platform.exit()
     }
 
 }
