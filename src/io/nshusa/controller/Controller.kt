@@ -4,12 +4,12 @@ import io.nshusa.controller.component.InputMessage
 import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
-import javafx.scene.control.Label
+import javafx.scene.control.ColorPicker
 import javafx.scene.control.TreeItem
 import javafx.scene.control.TreeView
 import javafx.scene.input.MouseEvent
+import javafx.scene.paint.Color
 import javafx.stage.FileChooser
-import java.io.File
 import java.net.URL
 import java.nio.file.Paths
 import java.util.*
@@ -23,10 +23,14 @@ class Controller : Initializable {
     @FXML
     lateinit var treeView: TreeView<TreeNode>
 
+    @FXML
+    lateinit var colorPicker: ColorPicker
+
     val userHome = Paths.get(System.getProperty("user.home"))
 
     override fun initialize(location: URL?, resource: ResourceBundle?) {
         treeView.root = TreeItem(TreeNode("root"))
+        colorPicker.value = Color.MAGENTA
     }
 
     @FXML
