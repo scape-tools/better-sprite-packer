@@ -207,24 +207,24 @@
 	-fx-background-color: #292929;
 }
 
-.list-view {
+.tree-view {
 	-fx-background-color: #1F1F1F;
 }
 
-.list-cell:filled:hover {
+.tree-cell:filled:hover {
 	-fx-text-fill: white;
 }
 
-.list-cell:filled:selected:focused, .list-cell:filled:selected {
+.tree-cell:filled:selected:focused, .tree-cell:filled:selected {
     -fx-text-fill: white;
 }
 
-.list-cell:even {
+.tree-cell:even {
     -fx-text-fill: gray;
     -fx-background-color: #1F1F1F;
 }
 
-.list-cell:odd {
+.tree-cell:odd {
     -fx-text-fill: gray;
 	-fx-background-color: #1F1F1F;
 }
