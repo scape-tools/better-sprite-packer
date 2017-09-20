@@ -1,6 +1,7 @@
 package io.nshusa.controller
 
-import io.nshusa.controller.component.InputMessage
+import io.nshusa.TreeNode
+import io.nshusa.component.InputMessage
 import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
@@ -53,13 +54,21 @@ class Controller : Initializable {
         fc.extensionFilters.addAll(FileChooser.ExtensionFilter("All Images", "*.*"),
                 FileChooser.ExtensionFilter("JPG", "*.jpg"),
                 FileChooser.ExtensionFilter("PNG", "*.png"))
-        val files = fc.showOpenMultipleDialog(App.mainStage)
+
+        val files = listOf(fc.showOpenMultipleDialog(App.mainStage))
 
         val selected = treeView.selectionModel.selectedIndex
 
         if (selected == -1) {
             return
         }
+
+        for (file in files) {
+
+
+
+        }
+
 
 
     }

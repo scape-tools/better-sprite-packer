@@ -1,4 +1,4 @@
-package io.nshusa.controller
+package io.nshusa
 
 class TreeNode(private val name: String) {
 

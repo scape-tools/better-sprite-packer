@@ -1,4 +1,4 @@
-package io.nshusa.controller.component
+package io.nshusa.component
 
 import javafx.scene.control.TextInputDialog
 
