@@ -113,12 +113,15 @@ class Controller : Initializable {
             }
 
             if (spriteId != -1) {
-                selectedItem.children.add(TreeItem<TreeNode>(TreeNode(spriteId.toString()), ImageView(SpritePackerUtils.toFXImage(bimage))))
+                if (selectedItem.children.size > spriteId) {
+                    selectedItem.children.removeAt(spriteId)
+                    selectedItem.children.add(spriteId, TreeItem<TreeNode>(TreeNode(spriteId.toString()), ImageView(SpritePackerUtils.toFXImage(bimage))))
+                } else {
+                    selectedItem.children.add(TreeItem<TreeNode>(TreeNode(spriteId.toString()), ImageView(SpritePackerUtils.toFXImage(bimage))))
+                }
             }
 
         }
-
-        println(selectedItem.children.size)
 
     }
 
