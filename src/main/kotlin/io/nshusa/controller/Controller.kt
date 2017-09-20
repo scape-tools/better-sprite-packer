@@ -41,65 +41,69 @@ class Controller : Initializable {
         treeView.root.isExpanded = true
         colorPicker.value = Color.MAGENTA
 
-        treeView.selectionModel.selectedItemProperty().addListener {obs, oldSelecttion, newSelection ->
+        treeView.selectionModel.selectedItemProperty().addListener { _, _, newSelection ->
 
-            if (newSelection.parent == null) { // root
-                val contextMenu = ContextMenu()
+            when {
+                newSelection.parent == null -> { // root
+                    val contextMenu = ContextMenu()
 
-                val createMI = MenuItem("Create")
-                createMI.setOnAction { it -> createArchive() }
+                    val createMI = MenuItem("Create")
+                    createMI.setOnAction { createArchive() }
 
-                val exportMI = MenuItem("Export")
+                    val exportMI = MenuItem("Export")
 
-                contextMenu.items.addAll(arrayOf(createMI, exportMI))
+                    contextMenu.items.addAll(arrayOf(createMI, exportMI))
 
-                treeView.contextMenu = contextMenu
-            } else if (newSelection.parent.parent == null) { // archives
-                val contextMenu = ContextMenu()
-
-                val importMI = MenuItem("Import")
-                importMI.setOnAction { it -> importImages() }
-
-                val exportMI = MenuItem("Export")
-
-                val removeMI = MenuItem("Remove")
-                removeMI.setOnAction { it -> removeNode() }
-
-                contextMenu.items.addAll(arrayOf(importMI, exportMI, removeMI))
-
-                treeView.contextMenu = contextMenu
-            } else { // images
-                val contextMenu = ContextMenu()
-
-                val importMI = MenuItem("Import")
-                importMI.setOnAction { it -> importImages() }
-
-                val exportMI = MenuItem("Export")
-
-                val removeMI = MenuItem("Remove")
-                removeMI.setOnAction { it -> removeNode() }
-
-                val replaceMI = MenuItem("Replace")
-
-                contextMenu.items.addAll(arrayOf(importMI, exportMI, removeMI, replaceMI))
-
-                treeView.contextMenu = contextMenu
-
-                val selectedImageView = newSelection.graphic as ImageView
-                val selectedImage = selectedImageView.image
-
-                imageView.image = selectedImageView.image
-
-                if (selectedImage.width > 512) {
-                    imageView.fitWidth = 512.0
+                    treeView.contextMenu = contextMenu
                 }
+                newSelection.parent.parent == null -> { // archives
+                    val contextMenu = ContextMenu()
 
-                if (selectedImage.height > 512) {
-                    imageView.fitHeight = 512.0
+                    val importMI = MenuItem("Import")
+                    importMI.setOnAction { importImages() }
+
+                    val exportMI = MenuItem("Export")
+
+                    val removeMI = MenuItem("Remove")
+                    removeMI.setOnAction { removeNode() }
+
+                    contextMenu.items.addAll(arrayOf(importMI, exportMI, removeMI))
+
+                    treeView.contextMenu = contextMenu
                 }
+                else -> { // images
+                    val contextMenu = ContextMenu()
 
-                imageView.isPreserveRatio = true
+                    val importMI = MenuItem("Import")
+                    importMI.setOnAction { importImages() }
 
+                    val exportMI = MenuItem("Export")
+
+                    val removeMI = MenuItem("Remove")
+                    removeMI.setOnAction { removeNode() }
+
+                    val replaceMI = MenuItem("Replace")
+
+                    contextMenu.items.addAll(arrayOf(importMI, exportMI, removeMI, replaceMI))
+
+                    treeView.contextMenu = contextMenu
+
+                    val selectedImageView = newSelection.graphic as ImageView
+                    val selectedImage = selectedImageView.image
+
+                    imageView.image = selectedImageView.image
+
+                    if (selectedImage.width > 512) {
+                        imageView.fitWidth = 512.0
+                    }
+
+                    if (selectedImage.height > 512) {
+                        imageView.fitHeight = 512.0
+                    }
+
+                    imageView.isPreserveRatio = true
+
+                }
             }
 
         }
