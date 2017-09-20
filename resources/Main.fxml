@@ -182,6 +182,9 @@
             </Tab>
             <Tab closable="false" text="Archive Info" />
          </tabs>
+         <BorderPane.margin>
+            <Insets bottom="5.0" right="5.0" />
+         </BorderPane.margin>
       </TabPane>
    </center>
 </BorderPane>
