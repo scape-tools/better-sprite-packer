@@ -104,7 +104,7 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="clearBtn" mnemonicParsing="false" text="Clear">
+                  <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#clearProgram" text="Clear">
                      <tooltip>
                         <Tooltip text="Use this button to clear this editor" />
                      </tooltip>

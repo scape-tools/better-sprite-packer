@@ -126,6 +126,11 @@ class Controller : Initializable {
     }
 
     @FXML
+    fun clearProgram() {
+        treeView.root.children.clear()
+    }
+
+    @FXML
     fun handleMouseDragged(event: MouseEvent) {
         var stage = App.mainStage
 
