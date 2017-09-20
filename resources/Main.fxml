@@ -7,8 +7,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.image.ImageView?>
@@ -126,78 +127,11 @@
       </VBox>
    </top>
    <center>
-      <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
-         <children>
-            <VBox fx:id="rightVBox" alignment="TOP_CENTER" minWidth="-Infinity" BorderPane.alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
-               <children>
-                  <TitledPane minHeight="-Infinity" text="Information" VBox.vgrow="NEVER">
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </VBox.margin>
-                     <content>
-                        <HBox>
-                           <children>
-                              <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <TextField fx:id="nameTf" alignment="CENTER" promptText="Name">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" />
-                                       </VBox.margin>
-                                       <tooltip>
-                                          <Tooltip text="This is the actual sprites name, whatever you set it to be" />
-                                       </tooltip>
-                                    </TextField>
-                                    <TextField fx:id="widthTf" alignment="CENTER" editable="false" promptText="Width">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" />
-                                       </VBox.margin>
-                                       <tooltip>
-                                          <Tooltip text="This is the sprites actual width" />
-                                       </tooltip>
-                                    </TextField>
-                                    <TextField fx:id="offsetXTf" alignment="CENTER" promptText="OffsetX">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" />
-                                       </VBox.margin>
-                                       <tooltip>
-                                          <Tooltip text="This is the sprites horizontal offset from the center of the image" />
-                                       </tooltip>
-                                    </TextField>
-                                 </children>
-                              </VBox>
-                              <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <TextField fx:id="indexTf" alignment="CENTER" editable="false" promptText="Index">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" right="5.0" />
-                                       </VBox.margin>
-                                       <tooltip>
-                                          <Tooltip text="This is the sprites unique id, no two sprites should have the same id" />
-                                       </tooltip>
-                                    </TextField>
-                                    <TextField fx:id="heightTf" alignment="CENTER" editable="false" promptText="Height">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" right="5.0" />
-                                       </VBox.margin>
-                                       <tooltip>
-                                          <Tooltip text="This is the sprites actual height" />
-                                       </tooltip>
-                                    </TextField>
-                                    <TextField fx:id="offsetYTf" alignment="CENTER" promptText="OffsetY">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" right="5.0" />
-                                       </VBox.margin>
-                                       <tooltip>
-                                          <Tooltip text="This is the sprites vertical offset from the center of the image" />
-                                       </tooltip>
-                                    </TextField>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                     </content>
-                  </TitledPane>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" prefViewportWidth="345.0" VBox.vgrow="ALWAYS">
+      <TabPane>
+         <tabs>
+            <Tab closable="false" text="Image">
+               <content>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" prefViewportWidth="345.0">
                      <content>
                         <VBox alignment="CENTER">
                            <children>
@@ -205,13 +139,59 @@
                            </children>
                         </VBox>
                      </content>
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" />
-                     </VBox.margin>
                   </ScrollPane>
-               </children>
-            </VBox>
-         </children>
-      </VBox>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Sprite Info">
+               <content>
+                  <VBox alignment="CENTER" fillWidth="false">
+                     <children>
+                        <TextField fx:id="idTf" alignment="CENTER" disable="true" editable="false" promptText="Id">
+                           <VBox.margin>
+                              <Insets bottom="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                           <tooltip>
+                              <Tooltip text="This is the sprites unique id, no two sprites should have the same id" />
+                           </tooltip>
+                        </TextField>
+                        <TextField fx:id="widthTf" alignment="CENTER" disable="true" editable="false" promptText="Width">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                           <tooltip>
+                              <Tooltip text="This is the sprites actual width" />
+                           </tooltip>
+                        </TextField>
+                        <TextField fx:id="heightTf" alignment="CENTER" disable="true" editable="false" promptText="Height">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                           <tooltip>
+                              <Tooltip text="This is the sprites actual height" />
+                           </tooltip>
+                        </TextField>
+                        <TextField fx:id="offsetXTf" alignment="CENTER" promptText="OffsetX">
+                           <VBox.margin>
+                              <Insets bottom="5.0" right="5.0" />
+                           </VBox.margin>
+                           <tooltip>
+                              <Tooltip text="This is the sprites horizontal offset from the center of the image" />
+                           </tooltip>
+                        </TextField>
+                        <TextField fx:id="offsetYTf" alignment="CENTER" promptText="OffsetY">
+                           <VBox.margin>
+                              <Insets bottom="5.0" right="5.0" />
+                           </VBox.margin>
+                           <tooltip>
+                              <Tooltip text="This is the sprites vertical offset from the center of the image" />
+                           </tooltip>
+                        </TextField>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Archive Info" />
+         </tabs>
+      </TabPane>
    </center>
 </BorderPane>

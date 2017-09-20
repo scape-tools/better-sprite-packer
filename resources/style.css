@@ -207,10 +207,6 @@
 	-fx-background-color: #292929;
 }
 
-.tree-view {
-	-fx-background-color: #1F1F1F;
-}
-
 .tree-cell:filled:hover {
 	-fx-text-fill: white;
 }
@@ -261,4 +257,48 @@
 	-fx-base :  #121212;
 	-fx-background-color:  #121212;
 	-fx-control-inner-background:  #121212;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-pane
+{
+    -fx-tab-min-width:90px;
+}
+
+.tab{
+    -fx-background-insets: 0 1 0 1,0,0;
+}
+.tab-pane .tab
+{
+    -fx-background-color: #e6e6e6;
+
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: #1F1F1F;
+}
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #828282;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: gray;
+}
+
+.tab:focused {
+    -fx-text-fill: white;
+}
+
+// removes blue border
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-color: transparent;
 }
