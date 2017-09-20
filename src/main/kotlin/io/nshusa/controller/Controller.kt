@@ -71,13 +71,12 @@ class Controller : Initializable {
 
         val files = fc.showOpenMultipleDialog(App.mainStage)
 
-        val selected = treeView.selectionModel.selectedIndex
+        val selectedItem = treeView.selectionModel.selectedItem
 
-        if (selected == -1) {
+        if (selectedItem.parent.parent != null) {
+            println("detected non directory")
             return
         }
-
-        val selectedItem = treeView.root.children.get(selected)
 
         for (file in files) {
 
