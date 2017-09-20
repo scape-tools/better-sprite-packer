@@ -115,9 +115,35 @@ class Controller : Initializable {
             if (spriteId != -1) {
                 if (selectedItem.children.size > spriteId) {
                     selectedItem.children.removeAt(spriteId)
-                    selectedItem.children.add(spriteId, TreeItem<TreeNode>(TreeNode(spriteId.toString()), ImageView(SpritePackerUtils.toFXImage(bimage))))
+
+                    val imageView = ImageView(SpritePackerUtils.toFXImage(bimage))
+
+                    if (bimage.width > 256) {
+                        imageView.fitWidth = 256.0
+                    }
+
+                    if (bimage.height > 256) {
+                        imageView.fitHeight = 256.0
+                    }
+
+                    imageView.isPreserveRatio = true
+
+                    selectedItem.children.add(spriteId, TreeItem<TreeNode>(TreeNode(spriteId.toString()), imageView))
                 } else {
-                    selectedItem.children.add(TreeItem<TreeNode>(TreeNode(spriteId.toString()), ImageView(SpritePackerUtils.toFXImage(bimage))))
+
+                    val imageView = ImageView(SpritePackerUtils.toFXImage(bimage))
+
+                    if (bimage.width > 128) {
+                        imageView.fitWidth = 128.0
+                    }
+
+                    if (bimage.height > 128) {
+                        imageView.fitHeight = 128.0
+                    }
+
+                    imageView.isPreserveRatio = true
+
+                    selectedItem.children.add(TreeItem<TreeNode>(TreeNode(spriteId.toString()), imageView))
                 }
             }
 
