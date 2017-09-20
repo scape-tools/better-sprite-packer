@@ -12,7 +12,12 @@ object SpritePackerUtils {
     }
 
     fun toFXImage(bimage: BufferedImage) : Image {
-        return SwingFXUtils.toFXImage(bimage, null);
+        return SwingFXUtils.toFXImage(bimage, null)
+    }
+
+    fun getFilePrefix(file: File) : String {
+        var name = file.name
+        if (name.lastIndexOf(".") != -1) return name.substring(0, name.lastIndexOf(".")) else return name
     }
 
 }

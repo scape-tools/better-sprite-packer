@@ -9,6 +9,7 @@ import javafx.fxml.Initializable
 import javafx.scene.control.ColorPicker
 import javafx.scene.control.TreeItem
 import javafx.scene.control.TreeView
+import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.MouseEvent
 import javafx.scene.paint.Color
@@ -30,11 +31,20 @@ class Controller : Initializable {
     @FXML
     lateinit var colorPicker: ColorPicker
 
+    lateinit var placeholderIcon: Image
+
     val userHome = Paths.get(System.getProperty("user.home"))
 
     override fun initialize(location: URL?, resource: ResourceBundle?) {
         treeView.root = TreeItem(TreeNode("root"))
         colorPicker.value = Color.MAGENTA
+
+       try {
+           placeholderIcon = Image("icons/placeholder.png")
+       } catch (ex: Exception) {
+            println("Failed to load icons.")
+       }
+
     }
 
     @FXML
@@ -69,9 +79,7 @@ class Controller : Initializable {
 
         val selectedItem = treeView.root.children.get(selected)
 
-        for (i in 0 until files.size) {
-
-            val file = files.get(i)
+        for (file in files) {
 
             if (!SpritePackerUtils.isImage(file)) {
                 continue
@@ -79,13 +87,39 @@ class Controller : Initializable {
 
             val bimage = ImageIO.read(file)
 
-            selectedItem.children.add(TreeItem<TreeNode>(TreeNode(i.toString()), ImageView(SpritePackerUtils.toFXImage(bimage))))
+            val prefix = SpritePackerUtils.getFilePrefix(file)
+
+            var spriteId = -1
+
+            try {
+                spriteId = Integer.parseInt(prefix)
+            } catch (ex: Exception) {
+
+            }
+
+            for (i in 0 until spriteId) {
+
+                val size = selectedItem.children.size
+
+                if (size < spriteId) {
+                    val placeholder = ImageView(placeholderIcon)
+
+                    placeholder.fitWidth = 32.0
+                    placeholder.fitHeight = 32.0
+                    placeholder.isPreserveRatio = true
+
+                    selectedItem.children.add(TreeItem<TreeNode>(TreeNode(size.toString()), placeholder))
+                }
+
+            }
+
+            if (spriteId != -1) {
+                selectedItem.children.add(TreeItem<TreeNode>(TreeNode(spriteId.toString()), ImageView(SpritePackerUtils.toFXImage(bimage))))
+            }
 
         }
 
         println(selectedItem.children.size)
-
-
 
     }
 
