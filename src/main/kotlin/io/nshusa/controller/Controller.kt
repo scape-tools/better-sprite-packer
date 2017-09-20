@@ -29,6 +29,9 @@ class Controller : Initializable {
     @FXML
     lateinit var colorPicker: ColorPicker
 
+    @FXML
+    lateinit var imageView: ImageView
+
     lateinit var placeholderIcon: Image
 
     val userHome = Paths.get(System.getProperty("user.home"))
@@ -81,7 +84,24 @@ class Controller : Initializable {
                 contextMenu.items.addAll(arrayOf(importMI, exportMI, removeMI, replaceMI))
 
                 treeView.contextMenu = contextMenu
+
+                val selectedImageView = newSelection.graphic as ImageView
+                val selectedImage = selectedImageView.image
+
+                imageView.image = selectedImageView.image
+
+                if (selectedImage.width > 512) {
+                    imageView.fitWidth = 512.0
+                }
+
+                if (selectedImage.height > 512) {
+                    imageView.fitHeight = 512.0
+                }
+
+                imageView.isPreserveRatio = true
+
             }
+
         }
 
        try {
