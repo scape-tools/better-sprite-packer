@@ -6,9 +6,7 @@ import io.nshusa.util.SpritePackerUtils
 import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
-import javafx.scene.control.ColorPicker
-import javafx.scene.control.TreeItem
-import javafx.scene.control.TreeView
+import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.MouseEvent
@@ -36,8 +34,55 @@ class Controller : Initializable {
     val userHome = Paths.get(System.getProperty("user.home"))
 
     override fun initialize(location: URL?, resource: ResourceBundle?) {
-        treeView.root = TreeItem(TreeNode("root"))
+        treeView.root = TreeItem(TreeNode("Archives"))
+        treeView.root.isExpanded = true
         colorPicker.value = Color.MAGENTA
+
+        treeView.selectionModel.selectedItemProperty().addListener {obs, oldSelecttion, newSelection ->
+
+            if (newSelection.parent == null) { // root
+                val contextMenu = ContextMenu()
+
+                val createMI = MenuItem("Create")
+                createMI.setOnAction { it -> createArchive() }
+
+                val exportMI = MenuItem("Export")
+
+                contextMenu.items.addAll(arrayOf(createMI, exportMI))
+
+                treeView.contextMenu = contextMenu
+            } else if (newSelection.parent.parent == null) { // archives
+                val contextMenu = ContextMenu()
+
+                val importMI = MenuItem("Import")
+                importMI.setOnAction { it -> importImages() }
+
+                val exportMI = MenuItem("Export")
+
+                val removeMI = MenuItem("Remove")
+                removeMI.setOnAction { it -> removeNode() }
+
+                contextMenu.items.addAll(arrayOf(importMI, exportMI, removeMI))
+
+                treeView.contextMenu = contextMenu
+            } else { // images
+                val contextMenu = ContextMenu()
+
+                val importMI = MenuItem("Import")
+                importMI.setOnAction { it -> importImages() }
+
+                val exportMI = MenuItem("Export")
+
+                val removeMI = MenuItem("Remove")
+                removeMI.setOnAction { it -> removeNode() }
+
+                val replaceMI = MenuItem("Replace")
+
+                contextMenu.items.addAll(arrayOf(importMI, exportMI, removeMI, replaceMI))
+
+                treeView.contextMenu = contextMenu
+            }
+        }
 
        try {
            placeholderIcon = Image("icons/placeholder.png")
@@ -69,7 +114,7 @@ class Controller : Initializable {
                 FileChooser.ExtensionFilter("JPG", "*.jpg"),
                 FileChooser.ExtensionFilter("PNG", "*.png"))
 
-        val files = fc.showOpenMultipleDialog(App.mainStage)
+        val files = fc.showOpenMultipleDialog(App.mainStage) ?: return
 
         val selectedItem = treeView.selectionModel.selectedItem
 
@@ -159,25 +204,33 @@ class Controller : Initializable {
             return
         }
 
+        val selectedItem = treeView.selectionModel.selectedItem
+
         val selectedParent = treeView.selectionModel.selectedItem.parent
+
+        println(selectedIndex)
 
         if (selectedParent.parent != null) {
 
-            val toRemove = selectedParent.children.get(selectedIndex - 1)
+            val indexToRemove = selectedParent.children.indexOf(selectedItem)
 
-            val node = toRemove.value.clone()
+            // remove
+            if (indexToRemove == selectedParent.children.size - 1) {
+                selectedParent.children.removeAt(indexToRemove)
+            } else { // set graphic
+                val node = selectedParent.children.get(indexToRemove)
 
-            selectedParent.children.removeAt(selectedIndex - 1)
+                val placeholder = ImageView(placeholderIcon)
 
-            val placeholder = ImageView(placeholderIcon)
+                placeholder.fitWidth = 32.0
+                placeholder.fitHeight = 32.0
+                placeholder.isPreserveRatio = true
 
-            placeholder.fitWidth = 32.0
-            placeholder.fitHeight = 32.0
-            placeholder.isPreserveRatio = true
+                node.graphic = placeholder
+            }
 
-            selectedParent.children.add(selectedIndex - 1, TreeItem<TreeNode>(node, placeholder))
         } else {
-            selectedParent.children.removeAt(selectedIndex)
+            selectedParent.children.remove(selectedItem)
         }
 
     }
