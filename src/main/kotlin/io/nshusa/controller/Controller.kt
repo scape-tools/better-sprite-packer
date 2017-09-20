@@ -108,6 +108,24 @@ class Controller : Initializable {
 
     @FXML
     fun importImages() {
+
+        val selectedIndex = treeView.selectionModel.selectedIndex
+
+        val selectedItem = treeView.selectionModel.selectedItem
+
+        if (selectedIndex == -1) {
+            return
+        }
+
+        if (selectedItem.parent == null) {
+            return
+        }
+
+        if (selectedItem.parent.parent != null) {
+            println("detected non directory")
+            return
+        }
+
         val fc = FileChooser()
         fc.initialDirectory = userHome.toFile()
         fc.extensionFilters.addAll(FileChooser.ExtensionFilter("All Images", "*.*"),
@@ -115,13 +133,6 @@ class Controller : Initializable {
                 FileChooser.ExtensionFilter("PNG", "*.png"))
 
         val files = fc.showOpenMultipleDialog(App.mainStage) ?: return
-
-        val selectedItem = treeView.selectionModel.selectedItem
-
-        if (selectedItem.parent.parent != null) {
-            println("detected non directory")
-            return
-        }
 
         for (file in files) {
 
@@ -207,8 +218,6 @@ class Controller : Initializable {
         val selectedItem = treeView.selectionModel.selectedItem
 
         val selectedParent = treeView.selectionModel.selectedItem.parent
-
-        println(selectedIndex)
 
         if (selectedParent.parent != null) {
 
