@@ -6,4 +6,8 @@ class TreeNode(private val name: String) {
         return name
     }
 
+    fun clone() : TreeNode {
+        return TreeNode(name)
+    }
+
 }

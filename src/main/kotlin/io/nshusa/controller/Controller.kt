@@ -126,6 +126,37 @@ class Controller : Initializable {
     }
 
     @FXML
+    fun removeNode() {
+        val selectedIndex = treeView.selectionModel.selectedIndex
+
+        if (selectedIndex == -1) {
+            return
+        }
+
+        val selectedParent = treeView.selectionModel.selectedItem.parent
+
+        if (selectedParent.parent != null) {
+
+            val toRemove = selectedParent.children.get(selectedIndex - 1)
+
+            val node = toRemove.value.clone()
+
+            selectedParent.children.removeAt(selectedIndex - 1)
+
+            val placeholder = ImageView(placeholderIcon)
+
+            placeholder.fitWidth = 32.0
+            placeholder.fitHeight = 32.0
+            placeholder.isPreserveRatio = true
+
+            selectedParent.children.add(selectedIndex - 1, TreeItem<TreeNode>(node, placeholder))
+        } else {
+            selectedParent.children.removeAt(selectedIndex)
+        }
+
+    }
+
+    @FXML
     fun clearProgram() {
         treeView.root.children.clear()
     }
