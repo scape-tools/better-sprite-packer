@@ -3,7 +3,10 @@ package io.nshusa.util
 import javafx.embed.swing.SwingFXUtils
 import javafx.scene.image.Image
 import java.awt.image.BufferedImage
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.File
+import javax.imageio.ImageIO
 
 object SpritePackerUtils {
 
@@ -13,6 +16,16 @@ object SpritePackerUtils {
 
     fun toFXImage(bimage: BufferedImage) : Image {
         return SwingFXUtils.toFXImage(bimage, null)
+    }
+
+    fun bufferedImageToGIF(bimage: BufferedImage) : BufferedImage {
+        val bos = ByteArrayOutputStream()
+
+        ImageIO.write(bimage, "gif", bos)
+
+        ByteArrayInputStream(bos.toByteArray()).use {
+            return ImageIO.read(it)
+        }
     }
 
     fun getFilePrefix(file: File) : String {
