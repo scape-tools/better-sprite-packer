@@ -1,6 +1,7 @@
 package io.nshusa.controller
 
 import io.nshusa.Sprite
+import io.nshusa.util.Dialogue
 import io.nshusa.util.SpritePackerUtils
 import javafx.application.Platform
 import javafx.beans.value.ObservableValue
@@ -17,6 +18,7 @@ import javafx.scene.input.MouseEvent
 import javafx.scene.paint.Color
 import javafx.stage.DirectoryChooser
 import java.io.ByteArrayInputStream
+import java.io.File
 import java.io.IOException
 import java.net.URL
 import java.nio.file.Paths
@@ -104,11 +106,7 @@ class Controller : Initializable {
             }
         })
 
-        listView.selectionModel.selectedIndexProperty().addListener({observable, oldValue, newValue ->
-
-        })
-
-        listView.selectionModel.selectedItemProperty().addListener({observable, oldValue, newValue ->
+        listView.selectionModel.selectedItemProperty().addListener({_, _, newValue ->
 
             if (newValue != null) {
                 imageView.image = newValue.toImage()
@@ -139,6 +137,21 @@ class Controller : Initializable {
 
     @FXML
     fun exportImages() {
+        val chooser = DirectoryChooser()
+        chooser.initialDirectory = userHome.toFile()
+        val selectedDirectory = chooser.showDialog(App.mainStage) ?: return
+
+        val output = File(selectedDirectory, "bsp_output")
+
+        if (!output.exists()) {
+            output.mkdir()
+        }
+
+        for (sprite in filteredSprites) {
+            ImageIO.write(sprite.toBufferdImage(), "png", File(output, "$sprite.png"))
+        }
+
+        Dialogue.openDirectory("Would you like to view the exported sprites?", output)
 
     }
 
