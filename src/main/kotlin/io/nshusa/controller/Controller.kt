@@ -57,6 +57,7 @@ class Controller : Initializable {
 
     override fun initialize(location: URL?, resource: ResourceBundle?) {
         colorPicker.value = Color.MAGENTA
+        listView.selectionModel.selectionMode = SelectionMode.MULTIPLE
 
         try {
             placeholderIcon = Image("icons/placeholder.png")
