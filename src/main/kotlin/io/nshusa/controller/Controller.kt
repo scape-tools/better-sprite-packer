@@ -273,9 +273,9 @@ class Controller : Initializable {
                     } else {
 
                         for (j in elements.size until id) {
-                            Platform.runLater({elements.add(Sprite(j, ByteArray(0), info.formatName.toLowerCase()))})
+                            Platform.runLater({elements.add(Sprite(j, ByteArray(0), info.format.name.toLowerCase()))})
                         }
-                        Platform.runLater({elements.add(Sprite(id, data, info.formatName.toLowerCase()))})
+                        Platform.runLater({elements.add(Sprite(id, data, info.format.name.toLowerCase()))})
                     }
 
                 }
@@ -342,12 +342,12 @@ class Controller : Initializable {
                     val info = Imaging.getImageInfo(data)
 
                     if (id < files.size) {
-                        Platform.runLater({elements.add(Sprite(id, data, info.formatName))})
+                        Platform.runLater({elements.add(Sprite(id, data, info.format.name))})
                     } else {
                         for (j in elements.size until id) {
-                            Platform.runLater({elements.add(Sprite(j, ByteArray(0), info.formatName))})
+                            Platform.runLater({elements.add(Sprite(j, ByteArray(0), info.format.name))})
                         }
-                        Platform.runLater({elements.add(Sprite(id, data, info.formatName))})
+                        Platform.runLater({elements.add(Sprite(id, data, info.format.name))})
                     }
                 }
                 return false
@@ -383,6 +383,8 @@ class Controller : Initializable {
 
             override fun call():Boolean {
                 for (selectedItem in selectedItems) {
+
+                    println("${selectedItem.id}.${selectedItem.format}")
                     ImageIO.write(selectedItem.toBufferdImage(), selectedItem.format, File(selectedDirectory, "${selectedItem.id}.${selectedItem.format}"))
                 }
 
@@ -562,7 +564,7 @@ class Controller : Initializable {
 
                         val info = Imaging.getImageInfo(imageData)
 
-                        val sprite = Sprite(i, imageData, info.formatName)
+                        val sprite = Sprite(i, imageData, info.format.name)
                         sprite.drawOffsetX = offsetX
                         sprite.drawOffsetY = offsetY
 
