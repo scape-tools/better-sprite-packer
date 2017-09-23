@@ -24,9 +24,7 @@ import javafx.scene.paint.Color
 import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
 import org.apache.commons.imaging.Imaging
-import java.io.ByteArrayInputStream
-import java.io.File
-import java.io.IOException
+import java.io.*
 import java.net.URL
 import java.nio.file.Paths
 import java.util.*
@@ -353,7 +351,7 @@ class Controller : Initializable {
     fun exportImage() {
 
         if (elements.isEmpty()) {
-            Dialogue.showInfo("There isn't anything to export silly!").showAndWait()
+            Dialogue.showWarning("There isn't anything to export silly!").showAndWait()
             return
         }
 
@@ -361,7 +359,7 @@ class Controller : Initializable {
 
         for (selectedItem in selectedItems) {
             if (selectedItem?.data?.isEmpty()!!) {
-                Dialogue.showInfo("You can't export a placeholder silly!").showAndWait()
+                Dialogue.showWarning("You can't export a placeholder silly!").showAndWait()
                 return
             }
         }
@@ -461,6 +459,59 @@ class Controller : Initializable {
             listView.refresh()
 
         }
+    }
+
+    @FXML
+    fun exportBinary() {
+        if (elements.isEmpty()) {
+            Dialogue.showWarning("You can't export when you have nothing to export silly!").showAndWait()
+            return
+        }
+
+        val chooser = DirectoryChooser()
+        chooser.initialDirectory = userHome.toFile()
+        val selectedDirectory = chooser.showDialog(App.mainStage) ?: return
+
+        val mbos = ByteArrayOutputStream()
+        val mdos = DataOutputStream(mbos)
+
+        val dbos = ByteArrayOutputStream()
+        val ddos = DataOutputStream(dbos)
+
+        ddos.writeChars("bsp")
+
+        for (sprite in elements) {
+
+            val bimage = sprite.toBufferdImage()
+
+            mdos.writeShort(sprite.id)
+            mdos.writeShort(bimage.width)
+            mdos.writeShort(bimage.height)
+            mdos.writeShort(sprite.drawOffsetX)
+            mdos.writeShort(sprite.drawOffsetY)
+
+            val length = sprite.data?.size
+
+            mdos.writeByte(length?.shr(16)!!)
+            mdos.writeByte(length.shr(8))
+            mdos.writeByte(length)
+
+            ddos.write(sprite.data)
+        }
+
+        FileOutputStream(File(selectedDirectory, "main_file_sprites.dat")).use {
+            it.write(dbos.toByteArray())
+        }
+
+        FileOutputStream(File(selectedDirectory, "main_file_sprites.idx")).use {
+            it.write(mbos.toByteArray())
+        }
+
+        ddos.close()
+        mdos.close()
+
+        Dialogue.openDirectory("Would you like to view these files?", selectedDirectory)
+
     }
 
     @FXML
