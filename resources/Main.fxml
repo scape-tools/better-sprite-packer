@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane fx:id="root" onMouseDragged="#handleMouseDragged" onMousePressed="#handleMousePressed" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.nshusa.controller.Controller">
    <left>
@@ -148,14 +149,26 @@
                <content>
                   <VBox alignment="CENTER" fillWidth="false">
                      <children>
-                        <TextField fx:id="idTf" alignment="CENTER" editable="false" promptText="Id">
+                        <VBox alignment="CENTER">
                            <VBox.margin>
                               <Insets bottom="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
-                           <tooltip>
-                              <Tooltip text="This is the sprites unique id, no two sprites should have the same id" />
-                           </tooltip>
-                        </TextField>
+                           <children>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Id">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" right="5.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <TextField fx:id="idTf" alignment="CENTER" editable="false">
+                                 <tooltip>
+                                    <Tooltip text="This is the sprites unique id, no two sprites should have the same id" />
+                                 </tooltip>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </VBox.margin>
+                              </TextField>
+                           </children>
+                        </VBox>
                         <HBox alignment="CENTER">
                            <VBox.margin>
                               <Insets bottom="5.0" />
@@ -163,19 +176,43 @@
                         </HBox>
                         <HBox alignment="CENTER">
                            <children>
-                              <TextField fx:id="offsetXTf" alignment="CENTER" promptText="OffsetX">
-                                 <tooltip>
-                                    <Tooltip text="This is the sprites horizontal offset from the center of the image" />
-                                 </tooltip>
+                              <VBox alignment="CENTER">
                                  <HBox.margin>
                                     <Insets right="5.0" />
                                  </HBox.margin>
-                              </TextField>
-                              <TextField fx:id="offsetYTf" alignment="CENTER" promptText="OffsetY">
-                                 <tooltip>
-                                    <Tooltip text="This is the sprites vertical offset from the center of the image" />
-                                 </tooltip>
-                              </TextField>
+                                 <children>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="OffsetX">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                    <TextField fx:id="offsetXTf" alignment="CENTER">
+                                       <tooltip>
+                                          <Tooltip text="This is the sprites horizontal offset from the center of the image" />
+                                       </tooltip>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER">
+                                 <children>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="OffsetY">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                    <TextField fx:id="offsetYTf" alignment="CENTER">
+                                       <tooltip>
+                                          <Tooltip text="This is the sprites vertical offset from the center of the image" />
+                                       </tooltip>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
                            </children>
                            <VBox.margin>
                               <Insets bottom="5.0" />
@@ -183,12 +220,40 @@
                         </HBox>
                         <HBox>
                            <children>
-                              <TextField alignment="CENTER" editable="false" promptText="Colors">
+                              <VBox alignment="CENTER">
                                  <HBox.margin>
                                     <Insets right="5.0" />
                                  </HBox.margin>
-                              </TextField>
-                              <TextField alignment="CENTER" editable="false" promptText="File Type" />
+                                 <children>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Image Size">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                    <TextField fx:id="imageSizeTf" alignment="CENTER" editable="false">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <children>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Colors">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                    <TextField fx:id="colorsTf" alignment="CENTER" editable="false">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
                            </children>
                            <VBox.margin>
                               <Insets bottom="5.0" />
@@ -196,12 +261,113 @@
                         </HBox>
                         <HBox>
                            <children>
-                              <TextField alignment="CENTER" editable="false" promptText="Image Size">
+                              <VBox alignment="CENTER">
                                  <HBox.margin>
                                     <Insets right="5.0" />
                                  </HBox.margin>
-                              </TextField>
-                              <TextField alignment="CENTER" editable="false" promptText="File Size" />
+                                 <children>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Format Name">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                    <TextField fx:id="formatNameTf" alignment="CENTER" editable="false">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER">
+                                 <children>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="File Size">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                    <TextField fx:id="fileSizeTf" alignment="CENTER" editable="false">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <VBox alignment="CENTER">
+                                 <HBox.margin>
+                                    <Insets right="5.0" top="5.0" />
+                                 </HBox.margin>
+                                 <children>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Color Type">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                    <TextField fx:id="colorTypeTf" alignment="CENTER" editable="false">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER">
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                                 <children>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Bits Per Pixel">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                    <TextField fx:id="bitsPerPixelTf" alignment="CENTER" editable="false">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <VBox alignment="CENTER">
+                                 <HBox.margin>
+                                    <Insets right="5.0" top="5.0" />
+                                 </HBox.margin>
+                                 <children>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Transparent">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                    <TextField fx:id="transparentTf" alignment="CENTER" editable="false">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER">
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                                 <children>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Compression Algorithm">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                    <TextField fx:id="compATf" alignment="CENTER" editable="false">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
                            </children>
                         </HBox>
                      </children>

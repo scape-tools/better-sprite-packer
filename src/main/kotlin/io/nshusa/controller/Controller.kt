@@ -19,6 +19,7 @@ import javafx.scene.input.MouseEvent
 import javafx.scene.paint.Color
 import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
+import org.apache.commons.imaging.Imaging
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.IOException
@@ -45,6 +46,39 @@ class Controller : Initializable {
 
     @FXML
     lateinit var searchTf: TextField
+
+    @FXML
+    lateinit var idTf : TextField
+
+    @FXML
+    lateinit var offsetXTf : TextField
+
+    @FXML
+    lateinit var offsetYTf : TextField
+
+    @FXML
+    lateinit var imageSizeTf : TextField
+
+    @FXML
+    lateinit var colorsTf : TextField
+
+    @FXML
+    lateinit var formatNameTf : TextField
+
+    @FXML
+    lateinit var fileSizeTf : TextField
+
+    @FXML
+    lateinit var colorTypeTf : TextField
+
+    @FXML
+    lateinit var bitsPerPixelTf : TextField
+
+    @FXML
+    lateinit var transparentTf : TextField
+
+    @FXML
+    lateinit var compATf : TextField
 
     lateinit var placeholderIcon: Image
 
@@ -125,7 +159,18 @@ class Controller : Initializable {
             if (newValue != null && !newValue.data?.isEmpty()!!) {
                 imageView.image = newValue.toImage()
 
-                
+                val info = Imaging.getImageInfo(newValue.data)
+
+                idTf.text = newValue.id.toString()
+                imageSizeTf.text = "${info.width} x ${info.height}"
+
+                formatNameTf.text = info.format.name
+                fileSizeTf.text = BSPUtils.readableFileSize(newValue.data?.size?.toLong()!!)
+                colorTypeTf.text = info.colorType.toString()
+                bitsPerPixelTf.text = info.bitsPerPixel.toString()
+                transparentTf.text = info.isTransparent.toString()
+                compATf.text = info.compressionAlgorithm
+
             }
 
         })
@@ -372,6 +417,16 @@ class Controller : Initializable {
     fun clearProgram() {
         elements.clear()
         filteredSprites.clear()
+
+        idTf.text = ""
+        imageSizeTf.text = ""
+
+        formatNameTf.text = ""
+        fileSizeTf.text = ""
+        colorTypeTf.text = ""
+        bitsPerPixelTf.text = ""
+        transparentTf.text = ""
+        compATf.text = ""
     }
 
     @FXML
