@@ -276,6 +276,8 @@ class Controller : Initializable {
             ImageIO.write(selectedItem.toBufferdImage(), "png", File(selectedDirectory, "${selectedItem.id}.png"))
         }
 
+        Dialogue.openDirectory("Would you like to view these images?", selectedDirectory)
+
     }
 
     @FXML
