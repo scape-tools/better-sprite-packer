@@ -443,20 +443,14 @@ class Controller : Initializable {
         chooser.initialDirectory = userHome.toFile()
         val selectedDirectory = chooser.showDialog(App.mainStage) ?: return
 
-        val output = File(selectedDirectory, "bsp_output")
-
-        if (!output.exists()) {
-            output.mkdir()
-        }
-
         val task:Task<Boolean> = object:Task<Boolean>() {
 
             override fun call():Boolean {
                 for (sprite in filteredSprites) {
-                    ImageIO.write(sprite.toBufferdImage(), sprite.format, File(output, "$sprite.${sprite.format}"))
+                    ImageIO.write(sprite.toBufferdImage(), sprite.format, File(selectedDirectory, "$sprite.${sprite.format}"))
                 }
 
-                Platform.runLater({Dialogue.openDirectory("Would you like to view the exported sprites?", output)})
+                Platform.runLater({Dialogue.openDirectory("Would you like to view the exported sprites?", selectedDirectory)})
                 return true
             }
         }
