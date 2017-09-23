@@ -63,7 +63,7 @@ class Controller : Initializable {
 
         filteredSprites = FilteredList(elements, { _ -> true })
 
-        searchTf.textProperty().addListener({ _, _, newValue -> filteredSprites.setPredicate({ it -> Integer.toString(it.id).contains(newValue) }) })
+        searchTf.textProperty().addListener({ _, _, newValue -> filteredSprites.setPredicate({ it -> Integer.toString(it.id) == newValue }) })
 
         listView.items = this.filteredSprites
 
