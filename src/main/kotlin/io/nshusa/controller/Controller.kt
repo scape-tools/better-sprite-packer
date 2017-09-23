@@ -171,6 +171,18 @@ class Controller : Initializable {
                 transparentTf.text = info.isTransparent.toString()
                 compATf.text = info.compressionAlgorithm
 
+                val bimage = ImageIO.read(ByteArrayInputStream(newValue.data))
+
+                val set = mutableSetOf<Int>()
+
+                for (x in 0 until bimage.width) {
+                    for (y in 0 until bimage.height) {
+                        set.add(bimage.getRGB(x, y))
+                    }
+                }
+
+                colorsTf.text = set.size.toString()
+
             }
 
         })
