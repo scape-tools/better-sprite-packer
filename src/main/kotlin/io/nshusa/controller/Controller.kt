@@ -319,21 +319,19 @@ class Controller : Initializable {
         clearProgram()
 
         for (i in 0 until files.size) {
-
             val id = ids[i] ?: continue
-
             val data = datas[i] ?: continue
 
-            for (sprite in elements) {
-                if (Arrays.equals(sprite.data, datas[i])) {
-                    Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and $id")).showAndWait()
-                    return
+            if (id < files.size) {
+                elements.add(Sprite(id, data))
+            } else {
+                for (j in elements.size until id) {
+                    elements.add(Sprite(j, ByteArray(0)))
                 }
+
+                elements.add(Sprite(id, data))
             }
-
-            elements.add(Sprite(id, data))
         }
-
     }
 
     @FXML
