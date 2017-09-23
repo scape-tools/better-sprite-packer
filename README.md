@@ -23,15 +23,18 @@ Is a tool designed to pack sprites in a way they can be random-accessed.
 
 The programs exports your files in a binary format in 2 files
 1. main_file_sprites.dat (this is where all of the image data is kept)
-    * **format**
-        * signature: "bsp" (3 bytes)
-        * image: byte[] (variable length)
 2. main_file_sprites.idx (this is the meta data that contains meta information)
-    * **format**
-        * dataOffset: 24uint
-        * dataLength: 24uint
-        * offsetX: ushort
-        * offsetY: ushort
+
+ **Format**
+ 1. main_file_sprites.dat
+         * signature: "bsp" (3 bytes)
+         * image: byte[] (variable length)
+
+ 2. main_file_sprites.idx
+         * dataOffset: 24uint
+         * dataLength: 24uint
+         * offsetX: ushort
+         * offsetY: ushort
 
 ![image1](https://i.imgur.com/kNLk92s.png)
 
