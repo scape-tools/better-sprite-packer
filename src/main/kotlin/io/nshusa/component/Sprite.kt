@@ -19,6 +19,10 @@ class Sprite(val id: Int, var data: ByteArray?, val format: String): Comparable<
         return id.toString()
     }
 
+    fun getLength() : Int {
+        return if (data == null || data?.size == 0) 0 else data?.size!!
+    }
+
     fun toBufferdImage() : BufferedImage {
         ByteArrayInputStream(data).use {
             return ImageIO.read(it)

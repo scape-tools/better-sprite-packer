@@ -82,7 +82,7 @@
             </StackPane>
             <HBox alignment="CENTER_LEFT" VBox.vgrow="NEVER">
                <children>
-                  <Button fx:id="importBinaryBtn" mnemonicParsing="false" text="Import">
+                  <Button fx:id="importBinaryBtn" mnemonicParsing="false" onAction="#importBinary" text="Import">
                      <tooltip>
                         <Tooltip text="Use this button to load your sprites from the sprites archive" />
                      </tooltip>

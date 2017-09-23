@@ -26,10 +26,14 @@ import javafx.stage.FileChooser
 import org.apache.commons.imaging.Imaging
 import java.io.*
 import java.net.URL
+import java.nio.ByteBuffer
+import java.nio.channels.FileChannel
 import java.nio.file.Paths
 import java.util.*
 import java.nio.file.Files
+import java.nio.file.StandardOpenOption
 import javax.imageio.ImageIO
+import kotlin.experimental.and
 
 class Controller : Initializable {
 
@@ -462,6 +466,72 @@ class Controller : Initializable {
     }
 
     @FXML
+    fun importBinary() {
+
+        val chooser = FileChooser()
+        chooser.initialDirectory = userHome.toFile()
+        chooser.extensionFilters.add(FileChooser.ExtensionFilter("main_file_sprites.dat", "*.dat"))
+        val selectedFile = chooser.showOpenDialog(App.mainStage) ?: return
+
+        if (selectedFile.length() < 3) {
+            return
+        }
+
+        val prefix = BSPUtils.getFilePrefix(selectedFile)
+
+        val metaFile = File(selectedFile.parent, "$prefix.idx")
+
+        if (!metaFile.exists()) {
+            Dialogue.showWarning("Could not locate corresponding idx file=${metaFile.name}").showAndWait()
+            return
+        }
+
+        FileChannel.open(selectedFile.toPath(), StandardOpenOption.READ).use { dat ->
+            val signature = ByteBuffer.allocate(3)
+
+            dat.read(signature)
+
+            if (signature[0].toChar() != 'b' && signature[1].toChar() != 's' && signature[2].toChar() != 'p') {
+                Dialogue.showWarning("Detected invalid file format.").showAndWait()
+                return
+            }
+
+        }
+
+        val dataBuf = ByteBuffer.wrap(Files.readAllBytes(selectedFile.toPath()))
+        dataBuf.position(3)
+
+        val metaBuf = ByteBuffer.wrap(Files.readAllBytes(metaFile.toPath()))
+
+        val entries = metaBuf.capacity() / 10
+
+        for (i in 0 until entries) {
+            val offsetX = (metaBuf.short and 0xFF).toInt()
+            val offsetY = (metaBuf.short and 0xFF).toInt()
+            val dataOffset = ((metaBuf.get().toInt() and 0xFF) shl 16) + ((metaBuf.get().toInt() and 0xFF) shl 8) + (metaBuf.get().toInt() and 0xFF)
+            val length = ((metaBuf.get().toInt() and 0xFF) shl 16) + ((metaBuf.get().toInt() and 0xFF) shl 8) + (metaBuf.get().toInt() and 0xFF)
+
+            println("offset=$dataOffset length=$length")
+
+            dataBuf.position(dataOffset)
+
+            val imageData = ByteArray(length)
+
+            dataBuf.get(imageData)
+
+            val info = Imaging.getImageInfo(imageData)
+
+            val sprite = Sprite(i, imageData, info.formatName)
+            sprite.drawOffsetX = offsetX
+            sprite.drawOffsetY = offsetY
+
+            elements.add(sprite)
+
+        }
+
+    }
+
+    @FXML
     fun exportBinary() {
         if (elements.isEmpty()) {
             Dialogue.showWarning("You can't export when you have nothing to export silly!").showAndWait()
@@ -472,43 +542,50 @@ class Controller : Initializable {
         chooser.initialDirectory = userHome.toFile()
         val selectedDirectory = chooser.showDialog(App.mainStage) ?: return
 
-        val mbos = ByteArrayOutputStream()
-        val mdos = DataOutputStream(mbos)
+        var dataLength = 3
 
-        val dbos = ByteArrayOutputStream()
-        val ddos = DataOutputStream(dbos)
+        elements.forEach { dataLength += it.getLength() }
 
-        ddos.writeChars("bsp")
+        val dataBuf = ByteBuffer.allocate(dataLength)
+        val metaBuf = ByteBuffer.allocate(elements.size * 10)
+
+        val signature = ByteArray(3)
+        signature[0] - 'b'.toByte()
+        signature[1] = 's'.toByte()
+        signature[2] = 'p'.toByte()
+
+        dataBuf.put(signature)
 
         for (sprite in elements) {
+            val dataOffset = dataBuf.position()
 
-            val bimage = sprite.toBufferdImage()
+            val length = sprite.getLength()
 
-            mdos.writeShort(sprite.id)
-            mdos.writeShort(bimage.width)
-            mdos.writeShort(bimage.height)
-            mdos.writeShort(sprite.drawOffsetX)
-            mdos.writeShort(sprite.drawOffsetY)
+            metaBuf.putShort(sprite.drawOffsetX.toShort())
+            metaBuf.putShort(sprite.drawOffsetY.toShort())
 
-            val length = sprite.data?.size
+            //println("${sprite.id} offset=$dataOffset length=$length")
 
-            mdos.writeByte(length?.shr(16)!!)
-            mdos.writeByte(length.shr(8))
-            mdos.writeByte(length)
+            metaBuf.put((dataOffset shr 16).toByte())
+            metaBuf.put((dataOffset shr 8).toByte())
+            metaBuf.put(dataOffset.toByte())
 
-            ddos.write(sprite.data)
+            metaBuf.put((length shr 16).toByte())
+            metaBuf.put((length shr 8).toByte())
+            metaBuf.put(length.toByte())
+
+            //println("${length} ${dataBuf.remaining()}")
+
+            dataBuf.put(sprite.data)
         }
 
         FileOutputStream(File(selectedDirectory, "main_file_sprites.dat")).use {
-            it.write(dbos.toByteArray())
+            it.write(dataBuf.array())
         }
 
         FileOutputStream(File(selectedDirectory, "main_file_sprites.idx")).use {
-            it.write(mbos.toByteArray())
+            it.write(metaBuf.array())
         }
-
-        ddos.close()
-        mdos.close()
 
         Dialogue.openDirectory("Would you like to view these files?", selectedDirectory)
 
