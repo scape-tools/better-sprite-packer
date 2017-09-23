@@ -1,3 +1,5 @@
+@file:JvmName("App")
+
 package io.nshusa
 
 import javafx.application.Application
