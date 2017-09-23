@@ -83,12 +83,14 @@ class Controller : Initializable {
 
                 override fun updateItem(sprite: Sprite?, empty: Boolean) {
                     super.updateItem(sprite, empty)
+
                     if (empty) {
-                        text = null
+                        text = ""
                         graphic = null
                     } else {
+
                         try {
-                            if (sprite?.data == null) {
+                            if (sprite?.data?.isEmpty()!!) {
                                 imageView.image = placeholderIcon
                                 imageView.fitWidth = 32.0
                                 imageView.fitHeight = 32.0
@@ -96,6 +98,7 @@ class Controller : Initializable {
                                 graphic = imageView
                                 return
                             }
+
                             val image = ImageIO.read(ByteArrayInputStream(sprite.data))
                             imageView.fitWidth = (if (image.width > 128) 128.0 else image.width.toDouble())
                             imageView.fitHeight = (if (image.height > 128) 128.0 else image.height.toDouble())
@@ -167,13 +170,13 @@ class Controller : Initializable {
 
         for (selectedItem in selectedItems) {
 
-            if (selectedItem.id == 0) {
-                System.out.println("first item")
-            } else if (selectedItem.id == filteredSprites.size - 1)  {
-                System.out.println("last item")
+            if (selectedItem.id == filteredSprites.size - 1) {
+                elements.removeAt(selectedItem.id)
             } else {
-                System.out.println("middle item")
+                selectedItem.data = ByteArray(0)
             }
+
+            listView.refresh()
 
         }
 
