@@ -144,8 +144,7 @@
                   </ScrollPane>
                </content>
             </Tab>
-            <Tab closable="false" text="Archive Info" />
-            <Tab closable="false" text="Sprite Info">
+            <Tab closable="false" text="Information">
                <content>
                   <VBox alignment="CENTER" fillWidth="false">
                      <children>
@@ -158,21 +157,6 @@
                            </tooltip>
                         </TextField>
                         <HBox alignment="CENTER">
-                           <children>
-                              <TextField fx:id="widthTf" alignment="CENTER" editable="false" promptText="Width">
-                                 <tooltip>
-                                    <Tooltip text="This is the sprites actual width" />
-                                 </tooltip>
-                                 <HBox.margin>
-                                    <Insets right="5.0" />
-                                 </HBox.margin>
-                              </TextField>
-                              <TextField fx:id="heightTf" alignment="CENTER" editable="false" promptText="Height">
-                                 <tooltip>
-                                    <Tooltip text="This is the sprites actual height" />
-                                 </tooltip>
-                              </TextField>
-                           </children>
                            <VBox.margin>
                               <Insets bottom="5.0" />
                            </VBox.margin>
@@ -196,6 +180,29 @@
                            <VBox.margin>
                               <Insets bottom="5.0" />
                            </VBox.margin>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <TextField alignment="CENTER" editable="false" promptText="Colors">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <TextField alignment="CENTER" editable="false" promptText="File Type" />
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <TextField alignment="CENTER" editable="false" promptText="Image Size">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <TextField alignment="CENTER" editable="false" promptText="File Size" />
+                           </children>
                         </HBox>
                      </children>
                   </VBox>

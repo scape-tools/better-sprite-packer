@@ -124,6 +124,8 @@ class Controller : Initializable {
 
             if (newValue != null && !newValue.data?.isEmpty()!!) {
                 imageView.image = newValue.toImage()
+
+                
             }
 
         })
