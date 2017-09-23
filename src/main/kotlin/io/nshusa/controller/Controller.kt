@@ -567,16 +567,23 @@ class Controller : Initializable {
 
                         val imageData = ByteArray(length)
 
-                        dataBuf.get(imageData)
+                        if (length == 0) {
+                            Platform.runLater({ observableList.add(Sprite(i, imageData, "png"))})
+                        } else {
 
-                        val info = Imaging.getImageInfo(imageData)
+                            dataBuf.get(imageData)
 
-                        val sprite = Sprite(i, imageData, info.format.name)
-                        sprite.drawOffsetX = offsetX
-                        sprite.drawOffsetY = offsetY
+                            val info = Imaging.getImageInfo(imageData)
 
-                        Platform.runLater({ observableList.add(sprite)})
+                            val sprite = Sprite(i, imageData, info.format.name)
+                            sprite.drawOffsetX = offsetX
+                            sprite.drawOffsetY = offsetY
+
+                            Platform.runLater({ observableList.add(sprite)})
+                        }
+
                     } catch (ex: Exception) {
+                        ex.printStackTrace()
                         Platform.runLater({Dialogue.showWarning("Detected corrupt file or invalid format.").showAndWait()})
                         return false
                     }
