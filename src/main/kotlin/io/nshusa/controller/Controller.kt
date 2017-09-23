@@ -224,9 +224,9 @@ class Controller : Initializable {
         chooser.extensionFilters.add(FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.gif"))
         val selectedFiles = chooser.showOpenMultipleDialog(App.mainStage) ?: return
 
-        val task:Task<Boolean> = object:Task<Boolean>() {
+        val task: Task<Boolean> = object : Task<Boolean>() {
 
-            override fun call():Boolean {
+            override fun call(): Boolean {
                 val ids = arrayOfNulls<Int>(selectedFiles.size)
                 val datas = arrayOfNulls<ByteArray>(selectedFiles.size)
 
@@ -235,7 +235,7 @@ class Controller : Initializable {
                     val selectedFile = selectedFiles[i]
 
                     if (!BSPUtils.isValidImage(selectedFile)) {
-                        Platform.runLater({Dialogue.showWarning(String.format("${selectedFile.name} is not a valid image.")).showAndWait()})
+                        Platform.runLater({ Dialogue.showWarning(String.format("${selectedFile.name} is not a valid image.")).showAndWait() })
                         return false
                     }
 
@@ -246,7 +246,7 @@ class Controller : Initializable {
 
                         for (sprite in observableList) {
                             if (Arrays.equals(sprite.data, datas[i])) {
-                                Platform.runLater({Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and $id")).showAndWait()})
+                                Platform.runLater({ Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and $id")).showAndWait() })
                                 return false
                             }
                         }
@@ -254,7 +254,7 @@ class Controller : Initializable {
                         ids[i] = id
                         datas[i] = data
                     } catch (ex: Exception) {
-                        Platform.runLater({Dialogue.showWarning("Images should be named like 0.png, 1.png, 2.png could not read id for ${selectedFile.name}.").showAndWait()})
+                        Platform.runLater({ Dialogue.showWarning("Images should be named like 0.png, 1.png, 2.png could not read id for ${selectedFile.name}.").showAndWait() })
                         return false
                     }
 
@@ -268,13 +268,13 @@ class Controller : Initializable {
                     val info = Imaging.getImageInfo(data)
 
                     if (id < observableList.size) {
-                        Platform.runLater({ observableList[id].data = data})
+                        Platform.runLater({ observableList[id].data = data })
                     } else {
 
                         for (j in observableList.size until id) {
-                            Platform.runLater({ observableList.add(Sprite(j, ByteArray(0), info.format.name.toLowerCase()))})
+                            Platform.runLater({ observableList.add(Sprite(j, ByteArray(0), info.format.name.toLowerCase())) })
                         }
-                        Platform.runLater({ observableList.add(Sprite(id, data, info.format.name.toLowerCase()))})
+                        Platform.runLater({ observableList.add(Sprite(id, data, info.format.name.toLowerCase())) })
                     }
 
                 }
@@ -311,9 +311,9 @@ class Controller : Initializable {
 
         BSPUtils.sortFiles(files)
 
-        val task:Task<Boolean> = object:Task<Boolean>() {
+        val task: Task<Boolean> = object : Task<Boolean>() {
 
-            override fun call():Boolean {
+            override fun call(): Boolean {
                 val ids = arrayOfNulls<Int>(files.size)
                 val datas = arrayOfNulls<ByteArray>(files.size)
 
@@ -321,7 +321,7 @@ class Controller : Initializable {
                     val selectedFile = files[i]
 
                     if (!BSPUtils.isValidImage(selectedFile)) {
-                        Platform.runLater({Dialogue.showWarning(String.format("${selectedFile.name} is not a valid image.")).showAndWait()})
+                        Platform.runLater({ Dialogue.showWarning(String.format("${selectedFile.name} is not a valid image.")).showAndWait() })
                         return false
                     }
 
@@ -332,7 +332,7 @@ class Controller : Initializable {
 
                         for (sprite in observableList) {
                             if (Arrays.equals(sprite.data, datas[i])) {
-                                Platform.runLater({Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and $id")).showAndWait()})
+                                Platform.runLater({ Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and $id")).showAndWait() })
                                 return false
                             }
                         }
@@ -340,13 +340,13 @@ class Controller : Initializable {
                         ids[i] = id
                         datas[i] = data
                     } catch (ex: Exception) {
-                        Platform.runLater({Dialogue.showWarning("Images should be named like 0.png, 1.png, 2.png could not read id for ${selectedFile.name}.").showAndWait()})
+                        Platform.runLater({ Dialogue.showWarning("Images should be named like 0.png, 1.png, 2.png could not read id for ${selectedFile.name}.").showAndWait() })
                         return false
                     }
 
                 }
 
-                Platform.runLater({clearProgram()})
+                Platform.runLater({ clearProgram() })
 
                 for (i in 0 until files.size) {
                     val id = ids[i] ?: continue
@@ -355,12 +355,12 @@ class Controller : Initializable {
                     val info = Imaging.getImageInfo(data)
 
                     if (id < files.size) {
-                        Platform.runLater({ observableList.add(Sprite(id, data, info.format.name))})
+                        Platform.runLater({ observableList.add(Sprite(id, data, info.format.name)) })
                     } else {
                         for (j in observableList.size until id) {
-                            Platform.runLater({ observableList.add(Sprite(j, ByteArray(0), info.format.name))})
+                            Platform.runLater({ observableList.add(Sprite(j, ByteArray(0), info.format.name)) })
                         }
-                        Platform.runLater({ observableList.add(Sprite(id, data, info.format.name))})
+                        Platform.runLater({ observableList.add(Sprite(id, data, info.format.name)) })
                     }
                 }
                 return false
@@ -392,16 +392,16 @@ class Controller : Initializable {
         chooser.initialDirectory = userHome.toFile()
         val selectedDirectory = chooser.showDialog(App.mainStage) ?: return
 
-        val task:Task<Boolean> = object:Task<Boolean>() {
+        val task: Task<Boolean> = object : Task<Boolean>() {
 
-            override fun call():Boolean {
+            override fun call(): Boolean {
                 for (selectedItem in selectedItems) {
 
                     println("${selectedItem.id}.${selectedItem.format}")
                     ImageIO.write(selectedItem.toBufferdImage(), selectedItem.format, File(selectedDirectory, "${selectedItem.id}.${selectedItem.format}"))
                 }
 
-                Platform.runLater({Dialogue.openDirectory("Would you like to view these images?", selectedDirectory)})
+                Platform.runLater({ Dialogue.openDirectory("Would you like to view these images?", selectedDirectory) })
                 return true
             }
         }
@@ -423,20 +423,20 @@ class Controller : Initializable {
             return
         }
 
-        val task:Task<Boolean> = object:Task<Boolean>() {
+        val task: Task<Boolean> = object : Task<Boolean>() {
 
-            override fun call():Boolean {
+            override fun call(): Boolean {
                 val fileData = Files.readAllBytes(selectedFile.toPath())
 
                 for (sprite in observableList) {
                     if (Arrays.equals(sprite.data, fileData)) {
-                        Platform.runLater({Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and ${selectedItem.id}")).showAndWait()})
+                        Platform.runLater({ Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and ${selectedItem.id}")).showAndWait() })
                         return false
                     }
                 }
 
                 selectedItem.data = fileData
-                Platform.runLater({listView.refresh()})
+                Platform.runLater({ listView.refresh() })
                 return true
             }
         }
@@ -456,14 +456,14 @@ class Controller : Initializable {
         chooser.initialDirectory = userHome.toFile()
         val selectedDirectory = chooser.showDialog(App.mainStage) ?: return
 
-        val task:Task<Boolean> = object:Task<Boolean>() {
+        val task: Task<Boolean> = object : Task<Boolean>() {
 
-            override fun call():Boolean {
+            override fun call(): Boolean {
                 for (sprite in filteredList) {
                     ImageIO.write(sprite.toBufferdImage(), sprite.format, File(selectedDirectory, "$sprite.${sprite.format}"))
                 }
 
-                Platform.runLater({Dialogue.openDirectory("Would you like to view the exported sprites?", selectedDirectory)})
+                Platform.runLater({ Dialogue.openDirectory("Would you like to view the exported sprites?", selectedDirectory) })
                 return true
             }
         }
@@ -480,20 +480,20 @@ class Controller : Initializable {
             return
         }
 
-        val task:Task<Boolean> = object:Task<Boolean>() {
+        val task: Task<Boolean> = object : Task<Boolean>() {
 
-            override fun call():Boolean {
+            override fun call(): Boolean {
                 for (selectedItem in selectedItems) {
 
                     if (selectedItem.id == filteredList.size - 1) {
-                        Platform.runLater({ observableList.removeAt(selectedItem.id)})
+                        Platform.runLater({ observableList.removeAt(selectedItem.id) })
 
                         val start = selectedItem.id - 1
 
                         for (i in start downTo 0) {
                             // truncates placeholders
                             if (observableList[i].data?.isEmpty()!!) {
-                                Platform.runLater({ observableList.removeAt(i)})
+                                Platform.runLater({ observableList.removeAt(i) })
                             } else {
                                 break
                             }
@@ -502,7 +502,7 @@ class Controller : Initializable {
                         selectedItem.data = ByteArray(0)
                     }
 
-                    Platform.runLater({listView.refresh()})
+                    Platform.runLater({ listView.refresh() })
 
                 }
                 return true
@@ -534,16 +534,16 @@ class Controller : Initializable {
             return
         }
 
-        val task:Task<Boolean> = object:Task<Boolean>() {
+        val task: Task<Boolean> = object : Task<Boolean>() {
 
-            override fun call():Boolean {
+            override fun call(): Boolean {
                 FileChannel.open(selectedFile.toPath(), StandardOpenOption.READ).use { dat ->
                     val signature = ByteBuffer.allocate(3)
 
                     dat.read(signature)
 
                     if (signature[0].toChar() != 'b' && signature[1].toChar() != 's' && signature[2].toChar() != 'p') {
-                        Platform.runLater({Dialogue.showWarning("Detected invalid file format.").showAndWait()})
+                        Platform.runLater({ Dialogue.showWarning("Detected invalid file format.").showAndWait() })
                         return false
                     }
 
@@ -568,7 +568,7 @@ class Controller : Initializable {
                         val imageData = ByteArray(length)
 
                         if (length == 0) {
-                            Platform.runLater({ observableList.add(Sprite(i, imageData, "png"))})
+                            Platform.runLater({ observableList.add(Sprite(i, imageData, "png")) })
                         } else {
 
                             dataBuf.get(imageData)
@@ -579,12 +579,12 @@ class Controller : Initializable {
                             sprite.drawOffsetX = offsetX
                             sprite.drawOffsetY = offsetY
 
-                            Platform.runLater({ observableList.add(sprite)})
+                            Platform.runLater({ observableList.add(sprite) })
                         }
 
                     } catch (ex: Exception) {
                         ex.printStackTrace()
-                        Platform.runLater({Dialogue.showWarning("Detected corrupt file or invalid format.").showAndWait()})
+                        Platform.runLater({ Dialogue.showWarning("Detected corrupt file or invalid format.").showAndWait() })
                         return false
                     }
 
@@ -608,9 +608,9 @@ class Controller : Initializable {
         chooser.initialDirectory = userHome.toFile()
         val selectedDirectory = chooser.showDialog(App.mainStage) ?: return
 
-        val task:Task<Boolean> = object:Task<Boolean>() {
+        val task: Task<Boolean> = object : Task<Boolean>() {
 
-            override fun call():Boolean {
+            override fun call(): Boolean {
                 var dataLength = 3
 
                 observableList.forEach { dataLength += it.getLength() }
@@ -658,7 +658,7 @@ class Controller : Initializable {
                     it.write(metaBuf.array())
                 }
 
-                Platform.runLater({Dialogue.openDirectory("Would you like to view these files?", selectedDirectory)})
+                Platform.runLater({ Dialogue.openDirectory("Would you like to view these files?", selectedDirectory) })
                 return true
             }
         }
