@@ -187,6 +187,16 @@ class Controller : Initializable {
 
                 colorsTf.text = set.size.toString()
 
+            } else {
+                idTf.text = ""
+                imageSizeTf.text = ""
+                formatNameTf.text = ""
+                fileSizeTf.text = ""
+                colorTypeTf.text = ""
+                bitsPerPixelTf.text = ""
+                transparentTf.text = ""
+                compATf.text = ""
+                colorsTf.text = ""
             }
 
         })
