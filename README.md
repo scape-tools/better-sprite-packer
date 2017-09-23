@@ -17,6 +17,7 @@ Is a tool designed to pack sprites in a way they can be random-accessed.
 * Modern, clean looking
 * Made in Kotlin programming language
 * Works on Windows, Mac, and Linux
+* Supports PNG, JPEG, and GIF
 
 **Info**
 The programs exports your files in a binary format in 2 files
