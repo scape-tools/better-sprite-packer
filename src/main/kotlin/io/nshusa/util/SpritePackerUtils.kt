@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.util.*
 import javax.imageio.ImageIO
 
 object SpritePackerUtils {
@@ -31,6 +32,14 @@ object SpritePackerUtils {
     fun getFilePrefix(file: File) : String {
         var name = file.name
         if (name.lastIndexOf(".") != -1) return name.substring(0, name.lastIndexOf(".")) else return name
+    }
+
+    fun sortFiles(files: Array<File>) {
+        Arrays.sort(files, { first, second->
+            val fid = Integer.parseInt(first.name.substring(0, first.name.lastIndexOf(".")))
+            val sid = Integer.parseInt(second.name.substring(0, second.name.lastIndexOf(".")))
+            Integer.compare(fid, sid)
+        })
     }
 
 }

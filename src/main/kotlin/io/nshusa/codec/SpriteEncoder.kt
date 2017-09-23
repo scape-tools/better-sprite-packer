@@ -1,11 +1,10 @@
 package io.nshusa.codec
 
-import io.nshusa.SpriteNode
+import io.nshusa.Sprite
 import javafx.collections.ObservableList
-import javafx.scene.control.TreeItem
 
 interface SpriteEncoder {
 
-    fun encode(list: ObservableList<SpriteNode>) : Array<Byte>
+    fun encode(list: ObservableList<Sprite>) : Array<Byte>
 
 }
