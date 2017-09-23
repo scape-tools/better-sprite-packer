@@ -452,6 +452,7 @@ class Controller : Initializable {
 
     @FXML
     fun clearProgram() {
+        imageView.image = null
         elements.clear()
         filteredSprites.clear()
 
