@@ -266,15 +266,17 @@ class Controller : Initializable {
 
             val data = datas[i] ?: continue
 
+            val info = Imaging.getImageInfo(data)
+
             if (id < elements.size) {
                 elements[id].data = data
             } else {
 
                 for (j in elements.size until id) {
-                    elements.add(Sprite(j, ByteArray(0)))
+                    elements.add(Sprite(j, ByteArray(0), info.formatName.toLowerCase()))
                 }
 
-                elements.add(Sprite(id, data))
+                elements.add(Sprite(id, data, info.formatName.toLowerCase()))
             }
 
             listView.refresh()
@@ -332,14 +334,16 @@ class Controller : Initializable {
             val id = ids[i] ?: continue
             val data = datas[i] ?: continue
 
+            val info = Imaging.getImageInfo(data)
+
             if (id < files.size) {
-                elements.add(Sprite(id, data))
+                elements.add(Sprite(id, data, info.formatName))
             } else {
                 for (j in elements.size until id) {
-                    elements.add(Sprite(j, ByteArray(0)))
+                    elements.add(Sprite(j, ByteArray(0), info.formatName))
                 }
 
-                elements.add(Sprite(id, data))
+                elements.add(Sprite(id, data, info.formatName))
             }
         }
     }
@@ -366,7 +370,7 @@ class Controller : Initializable {
         val selectedDirectory = chooser.showDialog(App.mainStage) ?: return
 
         for (selectedItem in selectedItems) {
-            ImageIO.write(selectedItem.toBufferdImage(), "png", File(selectedDirectory, "${selectedItem.id}.png"))
+            ImageIO.write(selectedItem.toBufferdImage(), selectedItem.format, File(selectedDirectory, "${selectedItem.id}.${selectedItem.format}"))
         }
 
         Dialogue.openDirectory("Would you like to view these images?", selectedDirectory)
@@ -419,7 +423,7 @@ class Controller : Initializable {
         }
 
         for (sprite in filteredSprites) {
-            ImageIO.write(sprite.toBufferdImage(), "png", File(output, "$sprite.png"))
+            ImageIO.write(sprite.toBufferdImage(), sprite.format, File(output, "$sprite.${sprite.format}"))
         }
 
         Dialogue.openDirectory("Would you like to view the exported sprites?", output)

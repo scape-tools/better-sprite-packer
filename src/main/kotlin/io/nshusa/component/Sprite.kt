@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage
 import java.io.ByteArrayInputStream
 import javax.imageio.ImageIO
 
-class Sprite(val id: Int, var data: ByteArray?): Comparable<Sprite> {
+class Sprite(val id: Int, var data: ByteArray?, val format: String): Comparable<Sprite> {
 
     var drawOffsetX = 0
     var drawOffsetY = 0
