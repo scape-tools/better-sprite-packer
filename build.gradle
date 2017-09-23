@@ -23,10 +23,8 @@ repositories {
 }
 
 dependencies {
-// https://mvnrepository.com/artifact/org.apache.commons/commons-imaging
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-imaging
     compile group: 'org.apache.commons', name: 'commons-imaging', version: '1.0-R1534292'
-
-    compile files('lib/sprite-packer-utils.jar')
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testCompile 'junit:junit:4.11'

@@ -2,7 +2,6 @@ package io.nshusa.controller
 
 import io.nshusa.App
 import io.nshusa.component.Sprite
-import io.nshusa.bsp.extra.SpritePackerUtils
 import io.nshusa.util.Dialogue
 import io.nshusa.util.BSPUtils
 import javafx.application.Platform
@@ -235,7 +234,7 @@ class Controller : Initializable {
 
                     val selectedFile = selectedFiles[i]
 
-                    if (!SpritePackerUtils.isValidImage(selectedFile)) {
+                    if (!BSPUtils.isValidImage(selectedFile)) {
                         Platform.runLater({Dialogue.showWarning(String.format("${selectedFile.name} is not a valid image.")).showAndWait()})
                         return false
                     }
@@ -303,7 +302,7 @@ class Controller : Initializable {
                 return
             }
 
-            if (!SpritePackerUtils.isValidImage(file)) {
+            if (!BSPUtils.isValidImage(file)) {
                 Dialogue.showWarning("${file.name} is not a valid image.").showAndWait()
                 return
             }
@@ -321,7 +320,7 @@ class Controller : Initializable {
                 for (i in 0 until files.size) {
                     val selectedFile = files[i]
 
-                    if (!SpritePackerUtils.isValidImage(selectedFile)) {
+                    if (!BSPUtils.isValidImage(selectedFile)) {
                         Platform.runLater({Dialogue.showWarning(String.format("${selectedFile.name} is not a valid image.")).showAndWait()})
                         return false
                     }
@@ -419,7 +418,7 @@ class Controller : Initializable {
         chooser.extensionFilters.add(FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.gif"))
         val selectedFile = chooser.showOpenDialog(App.mainStage) ?: return
 
-        if (!SpritePackerUtils.isValidImage(selectedFile)) {
+        if (!BSPUtils.isValidImage(selectedFile)) {
             Dialogue.showWarning(String.format("${selectedFile.name} is not a valid image.")).showAndWait()
             return
         }
