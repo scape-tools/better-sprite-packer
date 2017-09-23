@@ -1,10 +1,10 @@
 package io.nshusa.controller
 
 import io.nshusa.Sprite
+import io.nshusa.bsp.extra.SpritePackerUtils
 import io.nshusa.util.Dialogue
-import io.nshusa.util.SpritePackerUtils
+import io.nshusa.util.BSPUtils
 import javafx.application.Platform
-import javafx.beans.value.ObservableValue
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.collections.transformation.FilteredList
@@ -134,13 +134,13 @@ class Controller : Initializable {
         chooser.extensionFilters.add(FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.gif"))
         val selectedFile = chooser.showOpenDialog(App.mainStage) ?: return
 
-        if (!SpritePackerUtils.isImage(selectedFile)) {
-            Dialogue.showWarning("${selectedFile.name} is not a valid image.").showAndWait()
+        if (!SpritePackerUtils.isValidImage(selectedFile)) {
+            Dialogue.showWarning(String.format("${selectedFile.name} is not a valid image.")).showAndWait()
             return
         }
 
         try {
-            val id = Integer.parseInt(SpritePackerUtils.getFilePrefix(selectedFile))
+            val id = Integer.parseInt(BSPUtils.getFilePrefix(selectedFile))
 
             val data = Files.readAllBytes(selectedFile.toPath())
 
@@ -171,12 +171,19 @@ class Controller : Initializable {
 
         val files = selectedDirectory.listFiles()
 
-        SpritePackerUtils.sortFiles(files)
+        for (file in files) {
+            if (!SpritePackerUtils.isValidImage(file)) {
+                Dialogue.showWarning(String.format("${file.name} is not a valid image.")).showAndWait()
+                return
+            }
+        }
+
+        BSPUtils.sortFiles(files)
 
         for (file in files) {
             val data = Files.readAllBytes(file.toPath())
 
-            val id = Integer.parseInt(SpritePackerUtils.getFilePrefix(file))
+            val id = Integer.parseInt(BSPUtils.getFilePrefix(file))
 
             elements.add(Sprite(id, data))
         }

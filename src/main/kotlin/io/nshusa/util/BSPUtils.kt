@@ -3,11 +3,7 @@ package io.nshusa.util
 import java.io.File
 import java.util.*
 
-object SpritePackerUtils {
-
-    fun isImage(file: File) : Boolean {
-        return file.name.endsWith(".png") || file.name.endsWith(".jpg")
-    }
+object BSPUtils {
 
     fun getFilePrefix(file: File) : String {
         val name = file.name
