@@ -205,6 +205,11 @@ class Controller : Initializable {
     fun removeSprite() {
         val selectedItems = listView.selectionModel.selectedItems
 
+        if (selectedItems.isEmpty()) {
+            Dialogue.showInfo("You have not selected anything to remove!").showAndWait()
+            return
+        }
+
         for (selectedItem in selectedItems) {
 
             if (selectedItem.id == filteredSprites.size - 1) {
