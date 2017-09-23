@@ -1,3 +1,5 @@
+package io.nshusa
+
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
@@ -9,7 +11,7 @@ import javafx.stage.StageStyle
 class App : Application() {
 
     override fun start(stage: Stage?) {
-        App.mainStage = stage!!
+        mainStage = stage!!
         val root : Parent? = FXMLLoader.load(App.javaClass.getResource("/Main.fxml"))
         stage?.title = "Better Sprite Packer"
         val scene = Scene(root)

@@ -1,5 +1,6 @@
 package io.nshusa.controller
 
+import io.nshusa.App
 import io.nshusa.component.Sprite
 import io.nshusa.bsp.extra.SpritePackerUtils
 import io.nshusa.util.Dialogue
@@ -155,7 +156,7 @@ class Controller : Initializable {
 
                 for (sprite in elements) {
                     if (Arrays.equals(sprite.data, datas[i])) {
-                        Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id}")).showAndWait()
+                        Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and $id")).showAndWait()
                         return
                     }
                 }
@@ -219,7 +220,7 @@ class Controller : Initializable {
 
                 for (sprite in elements) {
                     if (Arrays.equals(sprite.data, datas[i])) {
-                        Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id}")).showAndWait()
+                        Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and $id")).showAndWait()
                         return
                     }
                 }
@@ -241,7 +242,7 @@ class Controller : Initializable {
 
             for (sprite in elements) {
                 if (Arrays.equals(sprite.data, datas[i])) {
-                    Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id}")).showAndWait()
+                    Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and $id")).showAndWait()
                     return
                 }
             }
@@ -298,7 +299,7 @@ class Controller : Initializable {
 
         for (sprite in elements) {
             if (Arrays.equals(sprite.data, fileData)) {
-                Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id}")).showAndWait()
+                Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and ${selectedItem.id}")).showAndWait()
                 return
             }
         }
