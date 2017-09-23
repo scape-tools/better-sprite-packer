@@ -15,6 +15,7 @@ Is a tool designed to pack sprites in a way they can be random-accessed.
 * Search an image by it's imdex
 * Modern, clean looking
 * Made in Kotlin programming language
+* Works on Windows, Mac, and Linux
 
 **Info**
 The programs exports your files in a binary format in 2 files
