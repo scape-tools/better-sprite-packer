@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.jetbrains.kotlin:kotlin-test-junit:1.1.4-3">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test-junit/1.1.4-3/83222248997ed46d40dd97ace6871048783af360/kotlin-test-junit-1.1.4-3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test-junit/1.1.4-3/4ba182eb268a6c8d85af84f23fdef21df58c95fb/kotlin-test-junit-1.1.4-3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
