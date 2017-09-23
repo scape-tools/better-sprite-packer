@@ -31,6 +31,9 @@ class Controller : Initializable {
     @FXML
     lateinit var imageView: ImageView
 
+    @FXML
+    lateinit var searchTf: TextField
+
     lateinit var placeholderIcon: Image
 
     val userHome = Paths.get(System.getProperty("user.home"))
@@ -42,19 +45,29 @@ class Controller : Initializable {
     override fun initialize(location: URL?, resource: ResourceBundle?) {
         colorPicker.value = Color.MAGENTA
 
-       try {
-           placeholderIcon = Image("icons/placeholder.png")
-       } catch (ex: Exception) {
+        try {
+            placeholderIcon = Image("icons/placeholder.png")
+        } catch (ex: Exception) {
             println("Failed to load icons.")
-       }
+        }
+        searchTf.textProperty().addListener({ _, _, newValue -> filteredSprites.setPredicate({ it -> Integer.toString(it.id).contains(newValue) }) })
 
+        listView.items = this.filteredSprites
 
+        listView.setCellFactory({ _ ->
+            object : ListCell<SpriteNode>() {
+                private val listIconView = ImageView()
+                override fun updateItem(value: SpriteNode, empty: Boolean) {
+                    super.updateItem(value, empty)
+                    if (empty) {
+                        graphic = null
+                        text = ""
+                    } else {
 
-    }
-
-    @FXML
-    fun createArchive() {
-
+                    }
+                }
+            }
+        })
     }
 
     @FXML
@@ -68,7 +81,7 @@ class Controller : Initializable {
     }
 
     @FXML
-    fun removeNode() {
+    fun removeSprite() {
 
     }
 
