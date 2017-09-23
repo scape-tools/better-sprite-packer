@@ -53,7 +53,7 @@ class Controller : Initializable {
 
     private lateinit var filteredSprites: FilteredList<Sprite>
 
-    private lateinit var newImage : Image
+    private lateinit var newImage: Image
 
     override fun initialize(location: URL?, resource: ResourceBundle?) {
         colorPicker.value = Color.MAGENTA
@@ -67,15 +67,17 @@ class Controller : Initializable {
 
         filteredSprites = FilteredList(elements, { _ -> true })
 
-        searchTf.textProperty().addListener({ _, _, newValue -> filteredSprites.setPredicate({
+        searchTf.textProperty().addListener({ _, _, newValue ->
+            filteredSprites.setPredicate({
 
-            if (newValue.isEmpty()) {
-                true
-            } else {
-                Integer.toString(it.id) == newValue
-            }
+                if (newValue.isEmpty()) {
+                    true
+                } else {
+                    Integer.toString(it.id) == newValue
+                }
 
-        })})
+            })
+        })
 
         listView.items = this.filteredSprites
 
@@ -117,7 +119,7 @@ class Controller : Initializable {
             }
         })
 
-        listView.selectionModel.selectedItemProperty().addListener({_, _, newValue ->
+        listView.selectionModel.selectedItemProperty().addListener({ _, _, newValue ->
 
             if (newValue != null && !newValue.data?.isEmpty()!!) {
                 imageView.image = newValue.toImage()
@@ -132,24 +134,45 @@ class Controller : Initializable {
         val chooser = FileChooser()
         chooser.initialDirectory = userHome.toFile()
         chooser.extensionFilters.add(FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.gif"))
-        val selectedFile = chooser.showOpenDialog(App.mainStage) ?: return
+        val selectedFiles = chooser.showOpenMultipleDialog(App.mainStage) ?: return
 
-        if (!SpritePackerUtils.isValidImage(selectedFile)) {
-            Dialogue.showWarning(String.format("${selectedFile.name} is not a valid image.")).showAndWait()
-            return
+        val ids = arrayOfNulls<Int>(selectedFiles.size)
+        val datas = arrayOfNulls<ByteArray>(selectedFiles.size)
+
+        for (i in 0 until selectedFiles.size) {
+
+            val selectedFile = selectedFiles[i]
+
+            if (!SpritePackerUtils.isValidImage(selectedFile)) {
+                Dialogue.showWarning(String.format("${selectedFile.name} is not a valid image.")).showAndWait()
+                return
+            }
+
+            try {
+                val id = Integer.parseInt(BSPUtils.getFilePrefix(selectedFile))
+
+                val data = Files.readAllBytes(selectedFile.toPath())
+
+                ids[i] = id
+                datas[i] = data
+            } catch (ex: Exception) {
+                Dialogue.showWarning("Images should be named like 0.png, 1.png, 2.png could not read id for ${selectedFile.name}.").showAndWait()
+                return
+            }
+
         }
 
-        try {
-            val id = Integer.parseInt(BSPUtils.getFilePrefix(selectedFile))
+        for (i in 0 until selectedFiles.size) {
+            val id = ids[i] ?: continue
 
-            val data = Files.readAllBytes(selectedFile.toPath())
+            val data = datas[i] ?: continue
 
             if (id < elements.size) {
                 elements[id].data = data
             } else {
 
-                for (i in elements.size until id) {
-                    elements.add(Sprite(i, ByteArray(0)))
+                for (j in elements.size until id) {
+                    elements.add(Sprite(j, ByteArray(0)))
                 }
 
                 elements.add(Sprite(id, data))
@@ -157,8 +180,6 @@ class Controller : Initializable {
 
             listView.refresh()
 
-        } catch (ex: Exception) {
-            Dialogue.showWarning("Images should be named like 0.png, 1.png, 2.png could not read id for ${selectedFile.name}.").showAndWait()
         }
 
     }
