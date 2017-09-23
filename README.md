@@ -28,10 +28,10 @@ The programs exports your files in a binary format in 2 files
         * image: byte[] (variable length)
 2. main_file_sprites.idx (this is the meta data that contains meta information)
     * **format**
-        * offsetX: ushort
-        * offsetY: ushort
         * dataOffset: 24uint
         * dataLength: 24uint
+        * offsetX: ushort
+        * offsetY: ushort
 
 ![image1](https://i.imgur.com/kNLk92s.png)
 

@@ -558,10 +558,10 @@ class Controller : Initializable {
 
                 for (i in 0 until entries) {
                     try {
-                        val offsetX = (metaBuf.short and 0xFF).toInt()
-                        val offsetY = (metaBuf.short and 0xFF).toInt()
                         val dataOffset = ((metaBuf.get().toInt() and 0xFF) shl 16) + ((metaBuf.get().toInt() and 0xFF) shl 8) + (metaBuf.get().toInt() and 0xFF)
                         val length = ((metaBuf.get().toInt() and 0xFF) shl 16) + ((metaBuf.get().toInt() and 0xFF) shl 8) + (metaBuf.get().toInt() and 0xFF)
+                        val offsetX = (metaBuf.short and 0xFF).toInt()
+                        val offsetY = (metaBuf.short and 0xFF).toInt()
 
                         dataBuf.position(dataOffset)
 
@@ -623,12 +623,6 @@ class Controller : Initializable {
 
                     val length = sprite.getLength()
 
-                    // offset x
-                    metaBuf.putShort(sprite.drawOffsetX.toShort())
-
-                    // offset y
-                    metaBuf.putShort(sprite.drawOffsetY.toShort())
-
                     // data offset
                     metaBuf.put((dataOffset shr 16).toByte())
                     metaBuf.put((dataOffset shr 8).toByte())
@@ -638,6 +632,12 @@ class Controller : Initializable {
                     metaBuf.put((length shr 16).toByte())
                     metaBuf.put((length shr 8).toByte())
                     metaBuf.put(length.toByte())
+
+                    // offset x
+                    metaBuf.putShort(sprite.drawOffsetX.toShort())
+
+                    // offset y
+                    metaBuf.putShort(sprite.drawOffsetY.toShort())
 
                     // image data
                     dataBuf.put(sprite.data)
