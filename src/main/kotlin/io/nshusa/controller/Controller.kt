@@ -85,11 +85,11 @@ class Controller : Initializable {
 
     val userHome = Paths.get(System.getProperty("user.home"))
 
-    private val elements: ObservableList<Sprite> = FXCollections.observableArrayList()
+    private val observableList: ObservableList<Sprite> = FXCollections.observableArrayList()
 
-    private lateinit var filteredSprites: FilteredList<Sprite>
+    private lateinit var filteredList: FilteredList<Sprite>
 
-    private lateinit var newImage: Image
+    private lateinit var displayedImage: Image
 
     override fun initialize(location: URL?, resource: ResourceBundle?) {
         listView.selectionModel.selectionMode = SelectionMode.MULTIPLE
@@ -100,10 +100,10 @@ class Controller : Initializable {
             println("Failed to load icons.")
         }
 
-        filteredSprites = FilteredList(elements, { _ -> true })
+        filteredList = FilteredList(observableList, { _ -> true })
 
         searchTf.textProperty().addListener({ _, _, newValue ->
-            filteredSprites.setPredicate({
+            filteredList.setPredicate({
 
                 if (newValue.isEmpty()) {
                     true
@@ -114,7 +114,7 @@ class Controller : Initializable {
             })
         })
 
-        listView.items = this.filteredSprites
+        listView.items = this.filteredList
 
         listView.setCellFactory({ _ ->
             object : ListCell<Sprite>() {
@@ -142,8 +142,8 @@ class Controller : Initializable {
                             imageView.fitWidth = (if (image.width > 128) 128.0 else image.width.toDouble())
                             imageView.fitHeight = (if (image.height > 128) 128.0 else image.height.toDouble())
                             imageView.isPreserveRatio = true
-                            newImage = SwingFXUtils.toFXImage(image, null)
-                            imageView.image = newImage
+                            displayedImage = SwingFXUtils.toFXImage(image, null)
+                            imageView.image = displayedImage
                             text = sprite.id.toString()
                             graphic = imageView
                         } catch (e: IOException) {
@@ -245,7 +245,7 @@ class Controller : Initializable {
 
                         val data = Files.readAllBytes(selectedFile.toPath())
 
-                        for (sprite in elements) {
+                        for (sprite in observableList) {
                             if (Arrays.equals(sprite.data, datas[i])) {
                                 Platform.runLater({Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and $id")).showAndWait()})
                                 return false
@@ -268,14 +268,14 @@ class Controller : Initializable {
 
                     val info = Imaging.getImageInfo(data)
 
-                    if (id < elements.size) {
-                        Platform.runLater({elements[id].data = data})
+                    if (id < observableList.size) {
+                        Platform.runLater({ observableList[id].data = data})
                     } else {
 
-                        for (j in elements.size until id) {
-                            Platform.runLater({elements.add(Sprite(j, ByteArray(0), info.format.name.toLowerCase()))})
+                        for (j in observableList.size until id) {
+                            Platform.runLater({ observableList.add(Sprite(j, ByteArray(0), info.format.name.toLowerCase()))})
                         }
-                        Platform.runLater({elements.add(Sprite(id, data, info.format.name.toLowerCase()))})
+                        Platform.runLater({ observableList.add(Sprite(id, data, info.format.name.toLowerCase()))})
                     }
 
                 }
@@ -317,7 +317,7 @@ class Controller : Initializable {
 
                         val data = Files.readAllBytes(selectedFile.toPath())
 
-                        for (sprite in elements) {
+                        for (sprite in observableList) {
                             if (Arrays.equals(sprite.data, datas[i])) {
                                 Platform.runLater({Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and $id")).showAndWait()})
                                 return false
@@ -342,12 +342,12 @@ class Controller : Initializable {
                     val info = Imaging.getImageInfo(data)
 
                     if (id < files.size) {
-                        Platform.runLater({elements.add(Sprite(id, data, info.format.name))})
+                        Platform.runLater({ observableList.add(Sprite(id, data, info.format.name))})
                     } else {
-                        for (j in elements.size until id) {
-                            Platform.runLater({elements.add(Sprite(j, ByteArray(0), info.format.name))})
+                        for (j in observableList.size until id) {
+                            Platform.runLater({ observableList.add(Sprite(j, ByteArray(0), info.format.name))})
                         }
-                        Platform.runLater({elements.add(Sprite(id, data, info.format.name))})
+                        Platform.runLater({ observableList.add(Sprite(id, data, info.format.name))})
                     }
                 }
                 return false
@@ -361,7 +361,7 @@ class Controller : Initializable {
     @FXML
     fun exportImage() {
 
-        if (elements.isEmpty()) {
+        if (observableList.isEmpty()) {
             Dialogue.showWarning("There isn't anything to export silly!").showAndWait()
             return
         }
@@ -415,7 +415,7 @@ class Controller : Initializable {
             override fun call():Boolean {
                 val fileData = Files.readAllBytes(selectedFile.toPath())
 
-                for (sprite in elements) {
+                for (sprite in observableList) {
                     if (Arrays.equals(sprite.data, fileData)) {
                         Platform.runLater({Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and ${selectedItem.id}")).showAndWait()})
                         return false
@@ -434,7 +434,7 @@ class Controller : Initializable {
     @FXML
     fun exportImages() {
 
-        if (elements.isEmpty()) {
+        if (observableList.isEmpty()) {
             Dialogue.showInfo("There isn't anything to export silly!").showAndWait()
             return
         }
@@ -446,7 +446,7 @@ class Controller : Initializable {
         val task:Task<Boolean> = object:Task<Boolean>() {
 
             override fun call():Boolean {
-                for (sprite in filteredSprites) {
+                for (sprite in filteredList) {
                     ImageIO.write(sprite.toBufferdImage(), sprite.format, File(selectedDirectory, "$sprite.${sprite.format}"))
                 }
 
@@ -459,7 +459,7 @@ class Controller : Initializable {
     }
 
     @FXML
-    fun removeSprite() {
+    fun removeImage() {
         val selectedItems = listView.selectionModel.selectedItems
 
         if (selectedItems.isEmpty()) {
@@ -472,15 +472,15 @@ class Controller : Initializable {
             override fun call():Boolean {
                 for (selectedItem in selectedItems) {
 
-                    if (selectedItem.id == filteredSprites.size - 1) {
-                        Platform.runLater({elements.removeAt(selectedItem.id)})
+                    if (selectedItem.id == filteredList.size - 1) {
+                        Platform.runLater({ observableList.removeAt(selectedItem.id)})
 
                         val start = selectedItem.id - 1
 
                         for (i in start downTo 0) {
                             // truncates placeholders
-                            if (elements[i].data?.isEmpty()!!) {
-                                Platform.runLater({elements.removeAt(i)})
+                            if (observableList[i].data?.isEmpty()!!) {
+                                Platform.runLater({ observableList.removeAt(i)})
                             } else {
                                 break
                             }
@@ -562,7 +562,7 @@ class Controller : Initializable {
                         sprite.drawOffsetX = offsetX
                         sprite.drawOffsetY = offsetY
 
-                        Platform.runLater({elements.add(sprite)})
+                        Platform.runLater({ observableList.add(sprite)})
                     } catch (ex: Exception) {
                         Platform.runLater({Dialogue.showWarning("Detected corrupt file or invalid format.").showAndWait()})
                         return false
@@ -579,7 +579,7 @@ class Controller : Initializable {
 
     @FXML
     fun exportBinary() {
-        if (elements.isEmpty()) {
+        if (observableList.isEmpty()) {
             Dialogue.showWarning("You can't export when you have nothing to export silly!").showAndWait()
             return
         }
@@ -593,10 +593,10 @@ class Controller : Initializable {
             override fun call():Boolean {
                 var dataLength = 3
 
-                elements.forEach { dataLength += it.getLength() }
+                observableList.forEach { dataLength += it.getLength() }
 
                 val dataBuf = ByteBuffer.allocate(dataLength)
-                val metaBuf = ByteBuffer.allocate(elements.size * 10)
+                val metaBuf = ByteBuffer.allocate(observableList.size * 10)
 
                 val signature = ByteArray(3)
                 signature[0] - 'b'.toByte()
@@ -605,7 +605,7 @@ class Controller : Initializable {
 
                 dataBuf.put(signature)
 
-                for (sprite in elements) {
+                for (sprite in observableList) {
                     val dataOffset = dataBuf.position()
 
                     val length = sprite.getLength()
@@ -650,8 +650,8 @@ class Controller : Initializable {
     @FXML
     fun clearProgram() {
         imageView.image = null
-        elements.clear()
-        filteredSprites.clear()
+        observableList.clear()
+        filteredList.clear()
 
         idTf.text = ""
         imageSizeTf.text = ""
