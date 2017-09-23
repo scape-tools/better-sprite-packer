@@ -283,7 +283,7 @@
 
 .tab .tab-label {
     -fx-alignment: CENTER;
-    -fx-text-fill: white;
+    -fx-text-fill: black;
     -fx-font-size: 12px;
     -fx-font-weight: bold;
 }
