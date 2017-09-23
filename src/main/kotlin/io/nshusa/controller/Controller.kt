@@ -1,6 +1,6 @@
 package io.nshusa.controller
 
-import io.nshusa.Sprite
+import io.nshusa.component.Sprite
 import io.nshusa.bsp.extra.SpritePackerUtils
 import io.nshusa.util.Dialogue
 import io.nshusa.util.BSPUtils

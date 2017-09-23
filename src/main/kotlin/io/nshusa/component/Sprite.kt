@@ -1,4 +1,4 @@
-package io.nshusa
+package io.nshusa.component
 
 import javafx.embed.swing.SwingFXUtils
 import javafx.scene.image.Image
