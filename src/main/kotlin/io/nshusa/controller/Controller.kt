@@ -368,7 +368,8 @@ class Controller : Initializable {
 
     @FXML
     fun clearProgram() {
-
+        elements.clear()
+        filteredSprites.clear()
     }
 
     @FXML
