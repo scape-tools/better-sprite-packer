@@ -296,7 +296,12 @@ class Controller : Initializable {
 
         val files = selectedDirectory.listFiles()
 
-        BSPUtils.sortFiles(files)
+        try {
+            BSPUtils.sortFiles(files)
+        } catch (ex: Exception) {
+            Dialogue.showWarning("Select a directory with only images.").showAndWait()
+            return
+        }
 
         val task:Task<Boolean> = object:Task<Boolean>() {
 
