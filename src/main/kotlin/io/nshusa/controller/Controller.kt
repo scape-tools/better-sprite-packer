@@ -25,8 +25,6 @@ import java.nio.file.Paths
 import java.util.*
 import java.nio.file.Files
 import javax.imageio.ImageIO
-import javax.swing.event.ChangeListener
-
 
 class Controller : Initializable {
 
@@ -67,7 +65,15 @@ class Controller : Initializable {
 
         filteredSprites = FilteredList(elements, { _ -> true })
 
-        searchTf.textProperty().addListener({ _, _, newValue -> filteredSprites.setPredicate({ it -> Integer.toString(it.id) == newValue }) })
+        searchTf.textProperty().addListener({ _, _, newValue -> filteredSprites.setPredicate({
+
+            if (newValue.isEmpty()) {
+                true
+            } else {
+                Integer.toString(it.id) == newValue
+            }
+
+        })})
 
         listView.items = this.filteredSprites
 
@@ -152,11 +158,24 @@ class Controller : Initializable {
         }
 
         Dialogue.openDirectory("Would you like to view the exported sprites?", output)
-
     }
 
     @FXML
     fun removeSprite() {
+
+        val selectedItems = listView.selectionModel.selectedItems
+
+        for (selectedItem in selectedItems) {
+
+            if (selectedItem.id == 0) {
+                System.out.println("first item")
+            } else if (selectedItem.id == filteredSprites.size - 1)  {
+                System.out.println("last item")
+            } else {
+                System.out.println("middle item")
+            }
+
+        }
 
     }
 
