@@ -238,6 +238,28 @@ class Controller : Initializable {
     }
 
     @FXML
+    fun replaceImage() {
+        val selectedItem = listView.selectionModel.selectedItem ?: return
+
+        val chooser = FileChooser()
+        chooser.initialDirectory = userHome.toFile()
+        chooser.extensionFilters.add(FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.gif"))
+        val selectedFile = chooser.showOpenDialog(App.mainStage) ?: return
+
+        if (!SpritePackerUtils.isValidImage(selectedFile)) {
+            Dialogue.showWarning(String.format("${selectedFile.name} is not a valid image.")).showAndWait()
+            return
+        }
+
+        val fileData = Files.readAllBytes(selectedFile.toPath())
+
+        selectedItem.data = fileData
+
+        listView.refresh()
+
+    }
+
+    @FXML
     fun exportImages() {
 
         if (elements.isEmpty()) {

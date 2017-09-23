@@ -31,7 +31,7 @@
                     <items>
                       <MenuItem mnemonicParsing="false" onAction="#importImage" text="Add" />
                         <MenuItem mnemonicParsing="false" onAction="#removeSprite" text="Remove" />
-                        <MenuItem mnemonicParsing="false" text="Replace" />
+                        <MenuItem mnemonicParsing="false" onAction="#replaceImage" text="Replace" />
                         <MenuItem mnemonicParsing="false" onAction="#exportImage" text="Export" />
                     </items>
                   </ContextMenu>
