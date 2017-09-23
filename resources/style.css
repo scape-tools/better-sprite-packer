@@ -234,7 +234,7 @@
 }
 
 .text-field {
-    -fx-background-color: white;
+    -fx-background-color: gray;
     -fx-text-fill: black;
 	-fx-prompt-text-fill: black;
 }
@@ -273,8 +273,7 @@
 }
 .tab-pane .tab
 {
-    -fx-background-color: #e6e6e6;
-
+    -fx-background-color: gray;
 }
 
 .tab-pane .tab:selected
@@ -284,7 +283,7 @@
 
 .tab .tab-label {
     -fx-alignment: CENTER;
-    -fx-text-fill: #828282;
+    -fx-text-fill: white;
     -fx-font-size: 12px;
     -fx-font-weight: bold;
 }
