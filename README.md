@@ -20,6 +20,7 @@ Is a tool designed to pack sprites in a way they can be random-accessed.
 * Supports PNG, JPEG, and GIF
 
 **Info**
+
 The programs exports your files in a binary format in 2 files
 1. main_file_sprites.dat (this is where all of the image data is kept)
     * **format**
