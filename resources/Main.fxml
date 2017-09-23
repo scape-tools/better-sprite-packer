@@ -186,7 +186,7 @@
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <TextField fx:id="offsetXTf" alignment="CENTER">
+                                    <TextField fx:id="offsetXTf" alignment="CENTER" onKeyPressed="#handleKeyEventPressed">
                                        <tooltip>
                                           <Tooltip text="This is the sprites horizontal offset from the center of the image" />
                                        </tooltip>
@@ -203,7 +203,7 @@
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <TextField fx:id="offsetYTf" alignment="CENTER">
+                                    <TextField fx:id="offsetYTf" alignment="CENTER" onKeyPressed="#handleKeyEventPressed">
                                        <tooltip>
                                           <Tooltip text="This is the sprites vertical offset from the center of the image" />
                                        </tooltip>

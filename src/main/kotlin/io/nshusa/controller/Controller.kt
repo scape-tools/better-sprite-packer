@@ -6,6 +6,8 @@ import io.nshusa.bsp.extra.SpritePackerUtils
 import io.nshusa.util.Dialogue
 import io.nshusa.util.BSPUtils
 import javafx.application.Platform
+import javafx.beans.value.ChangeListener
+import javafx.beans.value.ObservableValue
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.collections.transformation.FilteredList
@@ -15,6 +17,8 @@ import javafx.fxml.Initializable
 import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.input.KeyCode
+import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
 import javafx.scene.paint.Color
 import javafx.stage.DirectoryChooser
@@ -48,37 +52,37 @@ class Controller : Initializable {
     lateinit var searchTf: TextField
 
     @FXML
-    lateinit var idTf : TextField
+    lateinit var idTf: TextField
 
     @FXML
-    lateinit var offsetXTf : TextField
+    lateinit var offsetXTf: TextField
 
     @FXML
-    lateinit var offsetYTf : TextField
+    lateinit var offsetYTf: TextField
 
     @FXML
-    lateinit var imageSizeTf : TextField
+    lateinit var imageSizeTf: TextField
 
     @FXML
-    lateinit var colorsTf : TextField
+    lateinit var colorsTf: TextField
 
     @FXML
-    lateinit var formatNameTf : TextField
+    lateinit var formatNameTf: TextField
 
     @FXML
-    lateinit var fileSizeTf : TextField
+    lateinit var fileSizeTf: TextField
 
     @FXML
-    lateinit var colorTypeTf : TextField
+    lateinit var colorTypeTf: TextField
 
     @FXML
-    lateinit var bitsPerPixelTf : TextField
+    lateinit var bitsPerPixelTf: TextField
 
     @FXML
-    lateinit var transparentTf : TextField
+    lateinit var transparentTf: TextField
 
     @FXML
-    lateinit var compATf : TextField
+    lateinit var compATf: TextField
 
     lateinit var placeholderIcon: Image
 
@@ -185,6 +189,24 @@ class Controller : Initializable {
 
             }
 
+        })
+
+        offsetXTf.textProperty().addListener({ _, _, newValue ->
+            if (!newValue.matches("\\d*".toRegex()) || newValue.length > 3) {
+                offsetXTf.text = offsetXTf.text.substring(0, offsetXTf.length - 1)
+            }
+            if (offsetXTf.text.length > 3) {
+                offsetXTf.text = offsetXTf.text.substring(0, 3)
+            }
+        })
+
+        offsetYTf.textProperty().addListener({ _, _, newValue ->
+            if (!newValue.matches("\\d*".toRegex()) || newValue.length > 3) {
+                offsetYTf.text = offsetYTf.text.substring(0, offsetYTf.length - 1)
+            }
+            if (offsetYTf.text.length > 3) {
+                offsetYTf.text = offsetYTf.text.substring(0, 3)
+            }
         })
 
     }
@@ -439,6 +461,39 @@ class Controller : Initializable {
         bitsPerPixelTf.text = ""
         transparentTf.text = ""
         compATf.text = ""
+    }
+
+    @FXML
+    fun handleKeyEventPressed(event: KeyEvent) {
+
+        val selectedItem = listView.selectionModel.selectedItem ?: return
+
+        var flag = false
+
+        if (event.code == KeyCode.ENTER) {
+            if (!offsetXTf.text.isEmpty()) {
+                try {
+                    selectedItem.drawOffsetX = Integer.parseInt(offsetXTf.text)
+                    flag = true
+                } catch (ex: Exception) {
+
+                }
+            }
+
+            if (!offsetYTf.text.isEmpty()) {
+                try {
+                    selectedItem.drawOffsetY = Integer.parseInt(offsetYTf.text)
+                    flag = true
+                } catch (ex: Exception) {
+
+                }
+            }
+
+            if (flag) {
+                Dialogue.showInfo("Updated!").showAndWait()
+            }
+
+        }
     }
 
     @FXML

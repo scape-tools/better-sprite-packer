@@ -8,6 +8,9 @@ import javax.imageio.ImageIO
 
 class Sprite(val id: Int, var data: ByteArray?): Comparable<Sprite> {
 
+    var drawOffsetX = 0
+    var drawOffsetY = 0
+
     override fun compareTo(other: Sprite):Int {
             return if (id > other.id) 1 else -1
     }
