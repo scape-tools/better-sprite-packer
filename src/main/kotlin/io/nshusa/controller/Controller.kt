@@ -153,6 +153,13 @@ class Controller : Initializable {
 
                 val data = Files.readAllBytes(selectedFile.toPath())
 
+                for (sprite in elements) {
+                    if (Arrays.equals(sprite.data, datas[i])) {
+                        Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id}")).showAndWait()
+                        return
+                    }
+                }
+
                 ids[i] = id
                 datas[i] = data
             } catch (ex: Exception) {
@@ -192,22 +199,56 @@ class Controller : Initializable {
 
         val files = selectedDirectory.listFiles()
 
-        for (file in files) {
-            if (!SpritePackerUtils.isValidImage(file)) {
-                Dialogue.showWarning(String.format("${file.name} is not a valid image.")).showAndWait()
-                return
-            }
-        }
-
         BSPUtils.sortFiles(files)
 
-        for (file in files) {
-            val data = Files.readAllBytes(file.toPath())
+        val ids = arrayOfNulls<Int>(files.size)
+        val datas = arrayOfNulls<ByteArray>(files.size)
 
-            val id = Integer.parseInt(BSPUtils.getFilePrefix(file))
+        for (i in 0 until files.size) {
+            val selectedFile = files[i]
+
+            if (!SpritePackerUtils.isValidImage(selectedFile)) {
+                Dialogue.showWarning(String.format("${selectedFile.name} is not a valid image.")).showAndWait()
+                return
+            }
+
+            try {
+                val id = Integer.parseInt(BSPUtils.getFilePrefix(selectedFile))
+
+                val data = Files.readAllBytes(selectedFile.toPath())
+
+                for (sprite in elements) {
+                    if (Arrays.equals(sprite.data, datas[i])) {
+                        Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id}")).showAndWait()
+                        return
+                    }
+                }
+
+                ids[i] = id
+                datas[i] = data
+            } catch (ex: Exception) {
+                Dialogue.showWarning("Images should be named like 0.png, 1.png, 2.png could not read id for ${selectedFile.name}.").showAndWait()
+                return
+            }
+
+        }
+
+        for (i in 0 until files.size) {
+
+            val id = ids[i] ?: continue
+
+            val data = datas[i] ?: continue
+
+            for (sprite in elements) {
+                if (Arrays.equals(sprite.data, datas[i])) {
+                    Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id}")).showAndWait()
+                    return
+                }
+            }
 
             elements.add(Sprite(id, data))
         }
+
     }
 
     @FXML
@@ -253,10 +294,15 @@ class Controller : Initializable {
 
         val fileData = Files.readAllBytes(selectedFile.toPath())
 
+        for (sprite in elements) {
+            if (Arrays.equals(sprite.data, fileData)) {
+                Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id}")).showAndWait()
+                return
+            }
+        }
+
         selectedItem.data = fileData
-
         listView.refresh()
-
     }
 
     @FXML
