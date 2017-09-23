@@ -275,6 +275,7 @@ class Controller : Initializable {
 
     @FXML
     fun importImages() {
+
         val chooser = DirectoryChooser()
         chooser.initialDirectory = userHome.toFile()
         val selectedDirectory = chooser.showDialog(App.mainStage) ?: return
@@ -314,6 +315,8 @@ class Controller : Initializable {
             }
 
         }
+
+        clearProgram()
 
         for (i in 0 until files.size) {
 
