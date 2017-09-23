@@ -296,12 +296,21 @@ class Controller : Initializable {
 
         val files = selectedDirectory.listFiles()
 
-        try {
-            BSPUtils.sortFiles(files)
-        } catch (ex: Exception) {
-            Dialogue.showWarning("Select a directory with only images.").showAndWait()
-            return
+        for (file in files) {
+
+            if (file.isDirectory) {
+                Dialogue.showWarning("${file.name} cannot be a directory.").showAndWait()
+                return
+            }
+
+            if (!SpritePackerUtils.isValidImage(file)) {
+                Dialogue.showWarning("${file.name} is not a valid image.").showAndWait()
+                return
+            }
+
         }
+
+        BSPUtils.sortFiles(files)
 
         val task:Task<Boolean> = object:Task<Boolean>() {
 
