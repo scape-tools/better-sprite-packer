@@ -166,8 +166,9 @@ class Controller : Initializable {
                 val info = Imaging.getImageInfo(newValue.data)
 
                 idTf.text = newValue.id.toString()
+                offsetXTf.text = newValue.drawOffsetX.toString()
+                offsetYTf.text = newValue.drawOffsetY.toString()
                 imageSizeTf.text = "${info.width} x ${info.height}"
-
                 formatNameTf.text = info.format.name
                 fileSizeTf.text = BSPUtils.readableFileSize(newValue.data?.size?.toLong()!!)
                 colorTypeTf.text = info.colorType.toString()
