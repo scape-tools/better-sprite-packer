@@ -234,13 +234,13 @@
 }
 
 .text-field {
-    -fx-background-color: gray;
+    -fx-background-color: #BFBFBF;
     -fx-text-fill: black;
 	-fx-prompt-text-fill: black;
 }
 
 .text-field .search {
-	-fx-background-image:url('/icons/search_icon.png');
+	-fx-background-image:url('icons/search_icon.png');
 	-fx-background-repeat: no-repeat;
 	-fx-background-position: left center;
 }
@@ -273,7 +273,7 @@
 }
 .tab-pane .tab
 {
-    -fx-background-color: gray;
+    -fx-background-color: #BFBFBF;
 }
 
 .tab-pane .tab:selected
@@ -300,8 +300,4 @@
 // removes blue border
 .tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
     -fx-border-color: transparent;
-}
-
-.color-picker {
-    -fx-background-color: gray;
 }

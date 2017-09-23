@@ -37,7 +37,7 @@
                   </ContextMenu>
                </contextMenu>
             </ListView>
-            <TextField fx:id="searchTf" alignment="CENTER" promptText="Search..." style="-fx-background-image: url('images/search_icon.png');; -fx-background-repeat: no-repeat; -fx-background-position: left center;">
+            <TextField fx:id="searchTf" alignment="CENTER" promptText="Search..." style="-fx-background-repeat: no-repeat; -fx-background-image: url('icons/search_icon.png'); -fx-background-position: left center;">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
