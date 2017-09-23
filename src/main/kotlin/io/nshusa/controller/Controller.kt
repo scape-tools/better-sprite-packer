@@ -209,6 +209,17 @@ class Controller : Initializable {
 
             if (selectedItem.id == filteredSprites.size - 1) {
                 elements.removeAt(selectedItem.id)
+
+                val start = selectedItem.id - 1
+
+                for (i in start downTo 0) {
+                    // truncates placeholders
+                    if (elements[i].data?.isEmpty()!!) {
+                        elements.removeAt(i)
+                    } else {
+                        break
+                    }
+                }
             } else {
                 selectedItem.data = ByteArray(0)
             }
@@ -225,7 +236,7 @@ class Controller : Initializable {
 
     @FXML
     fun handleMouseDragged(event: MouseEvent) {
-        var stage = App.mainStage
+        val stage = App.mainStage
 
         stage.x = event.screenX - offsetX
         stage.y = event.screenY - offsetY
