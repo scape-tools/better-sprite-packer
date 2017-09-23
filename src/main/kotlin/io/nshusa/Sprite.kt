@@ -1,5 +1,11 @@
 package io.nshusa
 
+import javafx.embed.swing.SwingFXUtils
+import javafx.scene.image.Image
+import java.awt.image.BufferedImage
+import java.io.ByteArrayInputStream
+import javax.imageio.ImageIO
+
 class Sprite(val id: Int, var data: ByteArray?): Comparable<Sprite> {
 
     override fun compareTo(other: Sprite):Int {
@@ -8,6 +14,16 @@ class Sprite(val id: Int, var data: ByteArray?): Comparable<Sprite> {
 
     override fun toString() : String {
         return id.toString()
+    }
+
+    fun toBufferdImage() : BufferedImage {
+        ByteArrayInputStream(data).use {
+            return ImageIO.read(it)
+        }
+    }
+
+    fun toImage() : Image {
+        return SwingFXUtils.toFXImage(toBufferdImage(), null)
     }
 
 }

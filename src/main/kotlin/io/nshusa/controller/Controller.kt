@@ -3,6 +3,7 @@ package io.nshusa.controller
 import io.nshusa.Sprite
 import io.nshusa.util.SpritePackerUtils
 import javafx.application.Platform
+import javafx.beans.value.ObservableValue
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.collections.transformation.FilteredList
@@ -22,6 +23,7 @@ import java.nio.file.Paths
 import java.util.*
 import java.nio.file.Files
 import javax.imageio.ImageIO
+import javax.swing.event.ChangeListener
 
 
 class Controller : Initializable {
@@ -100,6 +102,16 @@ class Controller : Initializable {
                     }
                 }
             }
+        })
+
+        listView.selectionModel.selectedIndexProperty().addListener({observable, oldValue, newValue ->
+
+        })
+
+        listView.selectionModel.selectedItemProperty().addListener({observable, oldValue, newValue ->
+
+            imageView.image = newValue.toImage()
+
         })
 
     }
