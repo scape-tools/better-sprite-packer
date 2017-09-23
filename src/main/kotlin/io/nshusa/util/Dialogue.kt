@@ -37,4 +37,20 @@ object Dialogue {
         }
     }
 
+    fun showInfo(msg: String) : Alert {
+        val alert = Alert(Alert.AlertType.INFORMATION)
+        alert.title = "Information"
+        alert.headerText = "Information"
+        alert.contentText = msg
+        return alert
+    }
+
+    fun showWarning(msg: String) : Alert {
+        val alert = Alert(Alert.AlertType.WARNING)
+        alert.title = "Warning"
+        alert.headerText = "Warning"
+        alert.contentText = msg
+        return alert
+    }
+
 }

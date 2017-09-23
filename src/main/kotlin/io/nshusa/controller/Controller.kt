@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView
 import javafx.scene.input.MouseEvent
 import javafx.scene.paint.Color
 import javafx.stage.DirectoryChooser
+import javafx.stage.FileChooser
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.IOException
@@ -117,11 +118,47 @@ class Controller : Initializable {
 
         listView.selectionModel.selectedItemProperty().addListener({_, _, newValue ->
 
-            if (newValue != null) {
+            if (newValue != null && !newValue.data?.isEmpty()!!) {
                 imageView.image = newValue.toImage()
             }
 
         })
+
+    }
+
+    @FXML
+    fun importImage() {
+        val chooser = FileChooser()
+        chooser.initialDirectory = userHome.toFile()
+        chooser.extensionFilters.add(FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.gif"))
+        val selectedFile = chooser.showOpenDialog(App.mainStage) ?: return
+
+        if (!SpritePackerUtils.isImage(selectedFile)) {
+            Dialogue.showWarning("${selectedFile.name} is not a valid image.").showAndWait()
+            return
+        }
+
+        try {
+            val id = Integer.parseInt(SpritePackerUtils.getFilePrefix(selectedFile))
+
+            val data = Files.readAllBytes(selectedFile.toPath())
+
+            if (id < elements.size) {
+                elements[id].data = data
+            } else {
+
+                for (i in elements.size until id) {
+                    elements.add(Sprite(i, ByteArray(0)))
+                }
+
+                elements.add(Sprite(id, data))
+            }
+
+            listView.refresh()
+
+        } catch (ex: Exception) {
+            Dialogue.showWarning("Images should be named like 0.png, 1.png, 2.png could not read id for ${selectedFile.name}.").showAndWait()
+        }
 
     }
 
@@ -165,7 +202,6 @@ class Controller : Initializable {
 
     @FXML
     fun removeSprite() {
-
         val selectedItems = listView.selectionModel.selectedItems
 
         for (selectedItem in selectedItems) {
@@ -179,7 +215,6 @@ class Controller : Initializable {
             listView.refresh()
 
         }
-
     }
 
     @FXML
