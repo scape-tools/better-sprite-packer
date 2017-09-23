@@ -183,7 +183,40 @@ class Controller : Initializable {
     }
 
     @FXML
+    fun exportImage() {
+
+        if (elements.isEmpty()) {
+            Dialogue.showInfo("There isn't anything to export silly!").showAndWait()
+            return
+        }
+
+        val selectedItems = listView.selectionModel.selectedItems
+
+        for (selectedItem in selectedItems) {
+            if (selectedItem?.data?.isEmpty()!!) {
+                Dialogue.showInfo("You can't export a placeholder silly!").showAndWait()
+                return
+            }
+        }
+
+        val chooser = DirectoryChooser()
+        chooser.initialDirectory = userHome.toFile()
+        val selectedDirectory = chooser.showDialog(App.mainStage) ?: return
+
+        for (selectedItem in selectedItems) {
+            ImageIO.write(selectedItem.toBufferdImage(), "png", File(selectedDirectory, "${selectedItem.id}.png"))
+        }
+
+    }
+
+    @FXML
     fun exportImages() {
+
+        if (elements.isEmpty()) {
+            Dialogue.showInfo("There isn't anything to export silly!").showAndWait()
+            return
+        }
+
         val chooser = DirectoryChooser()
         chooser.initialDirectory = userHome.toFile()
         val selectedDirectory = chooser.showDialog(App.mainStage) ?: return
