@@ -132,7 +132,7 @@ class Controller : Initializable {
                                 imageView.image = placeholderIcon
                                 imageView.fitWidth = 32.0
                                 imageView.fitHeight = 32.0
-                                text = sprite?.id.toString()
+                                text = sprite.id.toString()
                                 graphic = imageView
                                 return
                             }
