@@ -45,9 +45,6 @@ class Controller : Initializable {
     lateinit var listView: ListView<Sprite>
 
     @FXML
-    lateinit var colorPicker: ColorPicker
-
-    @FXML
     lateinit var imageView: ImageView
 
     @FXML
@@ -97,7 +94,6 @@ class Controller : Initializable {
     private lateinit var newImage: Image
 
     override fun initialize(location: URL?, resource: ResourceBundle?) {
-        colorPicker.value = Color.MAGENTA
         listView.selectionModel.selectionMode = SelectionMode.MULTIPLE
 
         try {
