@@ -1,4 +1,5 @@
 **Better Sprite Packer 3**
+
 Is a tool designed to pack sprites in a way they can be random-accessed.
 
 **Features**
