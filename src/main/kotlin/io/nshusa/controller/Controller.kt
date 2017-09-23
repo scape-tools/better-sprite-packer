@@ -506,26 +506,29 @@ class Controller : Initializable {
         val entries = metaBuf.capacity() / 10
 
         for (i in 0 until entries) {
-            val offsetX = (metaBuf.short and 0xFF).toInt()
-            val offsetY = (metaBuf.short and 0xFF).toInt()
-            val dataOffset = ((metaBuf.get().toInt() and 0xFF) shl 16) + ((metaBuf.get().toInt() and 0xFF) shl 8) + (metaBuf.get().toInt() and 0xFF)
-            val length = ((metaBuf.get().toInt() and 0xFF) shl 16) + ((metaBuf.get().toInt() and 0xFF) shl 8) + (metaBuf.get().toInt() and 0xFF)
+            try {
+                val offsetX = (metaBuf.short and 0xFF).toInt()
+                val offsetY = (metaBuf.short and 0xFF).toInt()
+                val dataOffset = ((metaBuf.get().toInt() and 0xFF) shl 16) + ((metaBuf.get().toInt() and 0xFF) shl 8) + (metaBuf.get().toInt() and 0xFF)
+                val length = ((metaBuf.get().toInt() and 0xFF) shl 16) + ((metaBuf.get().toInt() and 0xFF) shl 8) + (metaBuf.get().toInt() and 0xFF)
 
-            println("offset=$dataOffset length=$length")
+                dataBuf.position(dataOffset)
 
-            dataBuf.position(dataOffset)
+                val imageData = ByteArray(length)
 
-            val imageData = ByteArray(length)
+                dataBuf.get(imageData)
 
-            dataBuf.get(imageData)
+                val info = Imaging.getImageInfo(imageData)
 
-            val info = Imaging.getImageInfo(imageData)
+                val sprite = Sprite(i, imageData, info.formatName)
+                sprite.drawOffsetX = offsetX
+                sprite.drawOffsetY = offsetY
 
-            val sprite = Sprite(i, imageData, info.formatName)
-            sprite.drawOffsetX = offsetX
-            sprite.drawOffsetY = offsetY
-
-            elements.add(sprite)
+                elements.add(sprite)
+            } catch (ex: Exception) {
+                Dialogue.showWarning("Detected corrupt file or invalid format.").showAndWait()
+                return
+            }
 
         }
 
