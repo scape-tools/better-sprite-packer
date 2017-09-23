@@ -110,7 +110,9 @@ class Controller : Initializable {
 
         listView.selectionModel.selectedItemProperty().addListener({observable, oldValue, newValue ->
 
-            imageView.image = newValue.toImage()
+            if (newValue != null) {
+                imageView.image = newValue.toImage()
+            }
 
         })
 
