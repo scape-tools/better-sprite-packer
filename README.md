@@ -36,6 +36,8 @@ The programs exports your files in a binary format in 2 files
     * offsetX: ushort
     * offsetY: ushort
 
-![image1](https://i.imgur.com/kNLk92s.png)
+![image1](https://i.imgur.com/m2yigqJ.png)
 
-![image2](https://i.imgur.com/ADKSy2E.png)
+![image2](https://i.imgur.com/dBZei2e.png)
+
+![image3](https://i.imgur.com/EkZ6IzT.png)
