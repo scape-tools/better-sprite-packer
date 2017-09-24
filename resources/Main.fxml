@@ -13,10 +13,12 @@
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 
 <BorderPane fx:id="root" onMouseDragged="#handleMouseDragged" onMousePressed="#handleMousePressed" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.nshusa.controller.Controller">
    <left>
@@ -136,236 +138,95 @@
                   </ScrollPane>
                </content>
             </Tab>
-            <Tab closable="false" text="Information">
+            <Tab closable="false" text="Info">
                <content>
-                  <VBox alignment="CENTER" fillWidth="false">
+                  <GridPane fx:id="infoGridPane" alignment="CENTER">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
                      <children>
-                        <VBox alignment="CENTER">
-                           <VBox.margin>
-                              <Insets bottom="5.0" right="5.0" top="5.0" />
-                           </VBox.margin>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Id">
+                              <Label text="OffsetX" />
+                              <TextField fx:id="offsetXTf" alignment="CENTER">
                                  <VBox.margin>
-                                    <Insets bottom="5.0" right="5.0" />
-                                 </VBox.margin>
-                              </Text>
-                              <TextField fx:id="idTf" alignment="CENTER" editable="false">
-                                 <tooltip>
-                                    <Tooltip text="This is the sprites unique id, no two sprites should have the same id" />
-                                 </tooltip>
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" />
+                                    <Insets left="5.0" right="5.0" />
                                  </VBox.margin>
                               </TextField>
                            </children>
                         </VBox>
-                        <HBox alignment="CENTER">
-                           <VBox.margin>
-                              <Insets bottom="5.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <HBox alignment="CENTER">
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                            <children>
-                              <VBox alignment="CENTER">
-                                 <HBox.margin>
-                                    <Insets right="5.0" />
-                                 </HBox.margin>
-                                 <children>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="OffsetX">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <TextField fx:id="offsetXTf" alignment="CENTER" onKeyPressed="#handleKeyEventPressed">
-                                       <tooltip>
-                                          <Tooltip text="This is the sprites horizontal offset from the center of the image" />
-                                       </tooltip>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                 </children>
-                              </VBox>
-                              <VBox alignment="CENTER">
-                                 <children>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="OffsetY">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <TextField fx:id="offsetYTf" alignment="CENTER" onKeyPressed="#handleKeyEventPressed">
-                                       <tooltip>
-                                          <Tooltip text="This is the sprites vertical offset from the center of the image" />
-                                       </tooltip>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                 </children>
-                              </VBox>
+                              <Label text="OffsetY" />
+                              <TextField fx:id="offsetYTf" alignment="CENTER">
+                                 <VBox.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </VBox.margin>
+                              </TextField>
                            </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <HBox>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                            <children>
-                              <VBox alignment="CENTER">
-                                 <HBox.margin>
-                                    <Insets right="5.0" />
-                                 </HBox.margin>
-                                 <children>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Image Size">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <TextField fx:id="imageSizeTf" alignment="CENTER" editable="false">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                 </children>
-                              </VBox>
-                              <VBox alignment="CENTER">
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                                 <children>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Colors">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <TextField fx:id="colorsTf" alignment="CENTER" editable="false">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                 </children>
-                              </VBox>
+                              <Label text="Id:" />
+                              <Label fx:id="idL" />
                            </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <HBox>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
-                              <VBox alignment="CENTER">
-                                 <HBox.margin>
-                                    <Insets right="5.0" />
-                                 </HBox.margin>
-                                 <children>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Format Name">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <TextField fx:id="formatNameTf" alignment="CENTER" editable="false">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                 </children>
-                              </VBox>
-                              <VBox alignment="CENTER">
-                                 <children>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="File Size">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <TextField fx:id="fileSizeTf" alignment="CENTER" editable="false">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                 </children>
-                              </VBox>
+                              <Label text="Image Size:" />
+                              <Label fx:id="imageSizeL" />
                            </children>
-                        </HBox>
-                        <HBox>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
                            <children>
-                              <VBox alignment="CENTER">
-                                 <HBox.margin>
-                                    <Insets right="5.0" top="5.0" />
-                                 </HBox.margin>
-                                 <children>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Color Type">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <TextField fx:id="colorTypeTf" alignment="CENTER" editable="false">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                 </children>
-                              </VBox>
-                              <VBox alignment="CENTER">
-                                 <HBox.margin>
-                                    <Insets top="5.0" />
-                                 </HBox.margin>
-                                 <children>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Bits Per Pixel">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <TextField fx:id="bitsPerPixelTf" alignment="CENTER" editable="false">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                 </children>
-                              </VBox>
+                              <Label text="Colors:" />
+                              <Label fx:id="colorsL" />
                            </children>
-                        </HBox>
-                        <HBox>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
-                              <VBox alignment="CENTER">
-                                 <HBox.margin>
-                                    <Insets right="5.0" top="5.0" />
-                                 </HBox.margin>
-                                 <children>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Transparent">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <TextField fx:id="transparentTf" alignment="CENTER" editable="false">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                 </children>
-                              </VBox>
-                              <VBox alignment="CENTER">
-                                 <HBox.margin>
-                                    <Insets top="5.0" />
-                                 </HBox.margin>
-                                 <children>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Compression Algorithm">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <TextField fx:id="compATf" alignment="CENTER" editable="false">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                 </children>
-                              </VBox>
+                              <Label text="File Size:" />
+                              <Label fx:id="fileSizeL" />
                            </children>
-                        </HBox>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
+                           <children>
+                              <Label text="Format Name:" />
+                              <Label fx:id="formatNameL" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <children>
+                              <Label text="Transparent:" />
+                              <Label fx:id="transL" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4">
+                           <children>
+                              <Label text="Compression Algorithm:" />
+                              <Label fx:id="compAL" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <children>
+                              <Label text="Bits Per Pixel:" />
+                              <Label fx:id="bppL" />
+                           </children>
+                        </VBox>
                      </children>
-                  </VBox>
+                  </GridPane>
                </content>
             </Tab>
-            <Tab closable="false" text="Settings" />
          </tabs>
          <BorderPane.margin>
             <Insets bottom="5.0" right="5.0" />

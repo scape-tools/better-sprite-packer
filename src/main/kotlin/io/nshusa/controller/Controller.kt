@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
+import javafx.scene.text.Text
 import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
 import org.apache.commons.imaging.Imaging
@@ -48,37 +49,34 @@ class Controller : Initializable {
     lateinit var searchTf: TextField
 
     @FXML
-    lateinit var idTf: TextField
-
-    @FXML
     lateinit var offsetXTf: TextField
 
     @FXML
     lateinit var offsetYTf: TextField
 
     @FXML
-    lateinit var imageSizeTf: TextField
+    lateinit var idL: Label
 
     @FXML
-    lateinit var colorsTf: TextField
+    lateinit var imageSizeL: Label
 
     @FXML
-    lateinit var formatNameTf: TextField
+    lateinit var colorsL: Label
 
     @FXML
-    lateinit var fileSizeTf: TextField
+    lateinit var fileSizeL: Label
 
     @FXML
-    lateinit var colorTypeTf: TextField
+    lateinit var formatNameL: Label
 
     @FXML
-    lateinit var bitsPerPixelTf: TextField
+    lateinit var transL: Label
 
     @FXML
-    lateinit var transparentTf: TextField
+    lateinit var compAL: Label
 
     @FXML
-    lateinit var compATf: TextField
+    lateinit var bppL: Label
 
     lateinit var placeholderIcon: Image
 
@@ -160,16 +158,15 @@ class Controller : Initializable {
 
                 val info = Imaging.getImageInfo(newValue.data)
 
-                idTf.text = newValue.id.toString()
+                idL.text = newValue.id.toString()
                 offsetXTf.text = newValue.drawOffsetX.toString()
                 offsetYTf.text = newValue.drawOffsetY.toString()
-                imageSizeTf.text = "${info.width} x ${info.height}"
-                formatNameTf.text = info.format.name
-                fileSizeTf.text = BSPUtils.readableFileSize(newValue.data?.size?.toLong()!!)
-                colorTypeTf.text = info.colorType.toString()
-                bitsPerPixelTf.text = info.bitsPerPixel.toString()
-                transparentTf.text = info.isTransparent.toString()
-                compATf.text = info.compressionAlgorithm
+                imageSizeL.text = "${info.width} x ${info.height}"
+                formatNameL.text = info.format.name
+                fileSizeL.text = BSPUtils.readableFileSize(newValue.data?.size?.toLong()!!)
+                 bppL.text = info.bitsPerPixel.toString()
+                transL.text = info.isTransparent.toString()
+                compAL.text = info.compressionAlgorithm
 
                 val bimage = ImageIO.read(ByteArrayInputStream(newValue.data))
 
@@ -181,18 +178,17 @@ class Controller : Initializable {
                     }
                 }
 
-                colorsTf.text = set.size.toString()
+                colorsL.text = set.size.toString()
 
             } else {
-                idTf.text = ""
-                imageSizeTf.text = ""
-                formatNameTf.text = ""
-                fileSizeTf.text = ""
-                colorTypeTf.text = ""
-                bitsPerPixelTf.text = ""
-                transparentTf.text = ""
-                compATf.text = ""
-                colorsTf.text = ""
+                idL.text = ""
+                imageSizeL.text = ""
+                formatNameL.text = ""
+                fileSizeL.text = ""
+                bppL.text = ""
+                transL.text = ""
+                compAL.text = ""
+                colorsL.text = ""
             }
 
         })
@@ -673,15 +669,14 @@ class Controller : Initializable {
         observableList.clear()
         filteredList.clear()
 
-        idTf.text = ""
-        imageSizeTf.text = ""
+        idL.text = ""
+        imageSizeL.text = ""
 
-        formatNameTf.text = ""
-        fileSizeTf.text = ""
-        colorTypeTf.text = ""
-        bitsPerPixelTf.text = ""
-        transparentTf.text = ""
-        compATf.text = ""
+        formatNameL.text = ""
+        fileSizeL.text = ""
+        bppL.text = ""
+        transL.text = ""
+        compAL.text = ""
     }
 
     @FXML

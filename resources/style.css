@@ -234,7 +234,7 @@
 }
 
 .text-field {
-    -fx-background-color: #BFBFBF;
+    -fx-background-color: white;
     -fx-text-fill: black;
 	-fx-prompt-text-fill: black;
 }
@@ -273,7 +273,7 @@
 }
 .tab-pane .tab
 {
-    -fx-background-color: #BFBFBF;
+    -fx-background-color: white;
 }
 
 .tab-pane .tab:selected
@@ -300,4 +300,8 @@
 // removes blue border
 .tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
     -fx-border-color: transparent;
+}
+
+#infoGridPane .label {
+    -fx-text-fill: white;
 }
