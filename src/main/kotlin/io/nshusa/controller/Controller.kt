@@ -224,6 +224,13 @@ class Controller : Initializable {
 
                 val data = Files.readAllBytes(file.toPath())
 
+                for (sprite in observableList) {
+                    if (Arrays.equals(sprite.data, data)) {
+                        Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and ${currId}.")).showAndWait()
+                        return
+                    }
+                }
+
                 if (currId == observableList.size) {
 
                     if (data.isEmpty()) {
