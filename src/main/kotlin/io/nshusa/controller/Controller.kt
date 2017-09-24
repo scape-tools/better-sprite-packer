@@ -302,8 +302,8 @@ class Controller : Initializable {
         val task: Task<Boolean> = object : Task<Boolean>() {
 
             override fun call(): Boolean {
-                val ids = arrayOfNulls<Int>(files.size)
-                val datas = arrayOfNulls<ByteArray>(files.size)
+
+                val map = linkedMapOf<Int, ByteArray>()
 
                 for (i in 0 until files.size) {
                     val selectedFile = files[i]
@@ -314,19 +314,37 @@ class Controller : Initializable {
                     }
 
                     try {
+
+                        if (i < files.size - 1) {
+
+                            val next = files[i + 1]
+
+                            val currId = Integer.parseInt(BSPUtils.getFilePrefix(selectedFile))
+                            val nextId = Integer.parseInt(BSPUtils.getFilePrefix(next))
+
+                            if (currId != nextId - 1) {
+
+                                for (j in currId until nextId) {
+                                    map.put(j, ByteArray(0))
+                                    continue
+                                }
+
+                            }
+
+                        }
+
                         val id = Integer.parseInt(BSPUtils.getFilePrefix(selectedFile))
 
                         val data = Files.readAllBytes(selectedFile.toPath())
 
                         for (sprite in observableList) {
-                            if (Arrays.equals(sprite.data, datas[i])) {
+                            if (Arrays.equals(sprite.data, data)) {
                                 Platform.runLater({ Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and $id")).showAndWait() })
                                 return false
                             }
                         }
 
-                        ids[i] = id
-                        datas[i] = data
+                        map.put(id, data)
                     } catch (ex: Exception) {
                         Platform.runLater({ Dialogue.showWarning("Images should be named like 0.png, 1.png, 2.png could not read id for ${selectedFile.name}.").showAndWait() })
                         return false
@@ -336,20 +354,18 @@ class Controller : Initializable {
 
                 Platform.runLater({ clearProgram() })
 
-                for (i in 0 until files.size) {
-                    val id = ids[i] ?: continue
-                    val data = datas[i] ?: continue
+                for (entry in map.entries) {
+                    val id = entry.key
+                    val data = entry.value
 
-                    val info = Imaging.getImageInfo(data)
-
-                    if (id < files.size) {
-                        Platform.runLater({ observableList.add(Sprite(id, data, info.format.name)) })
+                    if (data.isEmpty()) {
+                        Platform.runLater({ observableList.add(Sprite(id, data, "png")) })
                     } else {
-                        for (j in observableList.size until id) {
-                            Platform.runLater({ observableList.add(Sprite(j, ByteArray(0), info.format.name)) })
-                        }
+                        val info = Imaging.getImageInfo(data)
+
                         Platform.runLater({ observableList.add(Sprite(id, data, info.format.name)) })
                     }
+
                 }
                 return false
             }
