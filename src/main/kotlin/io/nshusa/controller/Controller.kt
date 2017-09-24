@@ -18,7 +18,6 @@ import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
-import javafx.scene.text.Text
 import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
 import org.apache.commons.imaging.Imaging
@@ -361,7 +360,28 @@ class Controller : Initializable {
     }
 
     @FXML
-    fun exportImage() {
+    fun exportSelectedImage() {
+
+        val selectedItem = listView.selectionModel.selectedItem ?: return
+
+        val chooser = DirectoryChooser()
+        chooser.initialDirectory = userHome.toFile()
+        val selectedDirectory = chooser.showDialog(App.mainStage) ?: return
+
+        val task: Task<Boolean> = object : Task<Boolean>() {
+
+            override fun call(): Boolean {
+                ImageIO.write(selectedItem.toBufferdImage(), selectedItem.format, File(selectedDirectory, "${selectedItem.id}.${selectedItem.format}"))
+                Platform.runLater({ Dialogue.openDirectory("Would you like to view these images?", selectedDirectory) })
+                return true
+            }
+        }
+
+        Thread(task).start()
+    }
+
+    @FXML
+    fun exportSelectedImages() {
 
         if (observableList.isEmpty()) {
             Dialogue.showWarning("There isn't anything to export silly!").showAndWait()
@@ -385,8 +405,6 @@ class Controller : Initializable {
 
             override fun call(): Boolean {
                 for (selectedItem in selectedItems) {
-
-                    println("${selectedItem.id}.${selectedItem.format}")
                     ImageIO.write(selectedItem.toBufferdImage(), selectedItem.format, File(selectedDirectory, "${selectedItem.id}.${selectedItem.format}"))
                 }
 
@@ -449,6 +467,9 @@ class Controller : Initializable {
 
             override fun call(): Boolean {
                 for (sprite in filteredList) {
+                    if (sprite.data!!.isEmpty()) {
+                        continue
+                    }
                     ImageIO.write(sprite.toBufferdImage(), sprite.format, File(selectedDirectory, "$sprite.${sprite.format}"))
                 }
 

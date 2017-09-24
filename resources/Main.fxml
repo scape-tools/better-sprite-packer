@@ -34,7 +34,7 @@
                       <MenuItem mnemonicParsing="false" onAction="#importImage" text="Add" />
                         <MenuItem mnemonicParsing="false" onAction="#removeImage" text="Remove" />
                         <MenuItem mnemonicParsing="false" onAction="#replaceImage" text="Replace" />
-                        <MenuItem mnemonicParsing="false" onAction="#exportImage" text="Export" />
+                        <MenuItem mnemonicParsing="false" onAction="#exportSelectedImages" text="Export" />
                     </items>
                   </ContextMenu>
                </contextMenu>
@@ -135,6 +135,13 @@
                            </children>
                         </VBox>
                      </content>
+                     <contextMenu>
+                        <ContextMenu>
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#exportSelectedImage" text="Export" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu>
                   </ScrollPane>
                </content>
             </Tab>
