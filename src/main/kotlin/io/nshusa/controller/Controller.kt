@@ -206,172 +206,62 @@ class Controller : Initializable {
     }
 
     @FXML
-    fun importImage() {
-        val chooser = FileChooser()
-        chooser.initialDirectory = userHome.toFile()
-        chooser.extensionFilters.add(FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.gif"))
-        val selectedFiles = chooser.showOpenMultipleDialog(App.mainStage) ?: return
-
-        val task: Task<Boolean> = object : Task<Boolean>() {
-
-            override fun call(): Boolean {
-                val ids = arrayOfNulls<Int>(selectedFiles.size)
-                val datas = arrayOfNulls<ByteArray>(selectedFiles.size)
-
-                for (i in 0 until selectedFiles.size) {
-
-                    val selectedFile = selectedFiles[i]
-
-                    if (!BSPUtils.isValidImage(selectedFile)) {
-                        Platform.runLater({ Dialogue.showWarning(String.format("${selectedFile.name} is not a valid image.")).showAndWait() })
-                        return false
-                    }
-
-                    try {
-                        val id = Integer.parseInt(BSPUtils.getFilePrefix(selectedFile))
-
-                        val data = Files.readAllBytes(selectedFile.toPath())
-
-                        for (sprite in observableList) {
-                            if (Arrays.equals(sprite.data, datas[i])) {
-                                Platform.runLater({ Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and $id")).showAndWait() })
-                                return false
-                            }
-                        }
-
-                        ids[i] = id
-                        datas[i] = data
-                    } catch (ex: Exception) {
-                        Platform.runLater({ Dialogue.showWarning("Images should be named like 0.png, 1.png, 2.png could not read id for ${selectedFile.name}.").showAndWait() })
-                        return false
-                    }
-
-                }
-
-                for (i in 0 until selectedFiles.size) {
-                    val id = ids[i] ?: continue
-
-                    val data = datas[i] ?: continue
-
-                    val info = Imaging.getImageInfo(data)
-
-                    if (id < observableList.size) {
-                        Platform.runLater({ observableList[id].data = data })
-                    } else {
-
-                        for (j in observableList.size until id) {
-                            Platform.runLater({ observableList.add(Sprite(j, ByteArray(0), info.format.name.toLowerCase())) })
-                        }
-                        Platform.runLater({ observableList.add(Sprite(id, data, info.format.name.toLowerCase())) })
-                    }
-
-                }
-                return true
-            }
-        }
-
-        Thread(task).start()
-
-    }
-
-    @FXML
     fun importImages() {
 
-        val chooser = DirectoryChooser()
+        val chooser = FileChooser()
         chooser.initialDirectory = userHome.toFile()
-        val selectedDirectory = chooser.showDialog(App.mainStage) ?: return
+        val selectedFiles = chooser.showOpenMultipleDialog(App.mainStage) ?: return
 
-        val files = selectedDirectory.listFiles()
+        val sortedFiles = selectedFiles.toTypedArray()
 
-        for (file in files) {
+        BSPUtils.sortFiles(sortedFiles)
 
-            if (file.isDirectory) {
-                Dialogue.showWarning("${file.name} cannot be a directory.").showAndWait()
-                return
-            }
+        for (i in 0 until sortedFiles.size) {
+            val file = sortedFiles[i]
+            try {
 
-            if (!BSPUtils.isValidImage(file)) {
-                Dialogue.showWarning("${file.name} is not a valid image.").showAndWait()
-                return
-            }
+                val currId = Integer.parseInt(BSPUtils.getFilePrefix(file))
 
-        }
+                val data = Files.readAllBytes(file.toPath())
 
-        BSPUtils.sortFiles(files)
-
-        val task: Task<Boolean> = object : Task<Boolean>() {
-
-            override fun call(): Boolean {
-
-                val map = linkedMapOf<Int, ByteArray>()
-
-                for (i in 0 until files.size) {
-                    val selectedFile = files[i]
-
-                    if (!BSPUtils.isValidImage(selectedFile)) {
-                        Platform.runLater({ Dialogue.showWarning(String.format("${selectedFile.name} is not a valid image.")).showAndWait() })
-                        return false
-                    }
-
-                    try {
-
-                        if (i < files.size - 1) {
-
-                            val next = files[i + 1]
-
-                            val currId = Integer.parseInt(BSPUtils.getFilePrefix(selectedFile))
-                            val nextId = Integer.parseInt(BSPUtils.getFilePrefix(next))
-
-                            if (currId != nextId - 1) {
-
-                                for (j in currId until nextId) {
-                                    map.put(j, ByteArray(0))
-                                    continue
-                                }
-
-                            }
-
-                        }
-
-                        val id = Integer.parseInt(BSPUtils.getFilePrefix(selectedFile))
-
-                        val data = Files.readAllBytes(selectedFile.toPath())
-
-                        for (sprite in observableList) {
-                            if (Arrays.equals(sprite.data, data)) {
-                                Platform.runLater({ Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and $id")).showAndWait() })
-                                return false
-                            }
-                        }
-
-                        map.put(id, data)
-                    } catch (ex: Exception) {
-                        Platform.runLater({ Dialogue.showWarning("Images should be named like 0.png, 1.png, 2.png could not read id for ${selectedFile.name}.").showAndWait() })
-                        return false
-                    }
-
-                }
-
-                Platform.runLater({ clearProgram() })
-
-                for (entry in map.entries) {
-                    val id = entry.key
-                    val data = entry.value
+                if (currId == observableList.size) {
 
                     if (data.isEmpty()) {
-                        Platform.runLater({ observableList.add(Sprite(id, data, "png")) })
+                        observableList.add(Sprite(currId, data, "png"))
                     } else {
                         val info = Imaging.getImageInfo(data)
 
-                        Platform.runLater({ observableList.add(Sprite(id, data, info.format.name)) })
+                        observableList.add(Sprite(currId, data, info.format.name))
+                    }
+
+                } else if (currId > observableList.size) {
+
+                    for (j in observableList.size until currId) {
+                        observableList.add(Sprite(j, ByteArray(0), "png"))
+                    }
+
+                    val info = Imaging.getImageInfo(data)
+
+                    observableList.add(Sprite(currId, data, info.format.name))
+
+                } else {
+
+                    if (data.isEmpty()) {
+                        observableList[currId] = Sprite(currId, data, "png")
+                    } else {
+                        val info = Imaging.getImageInfo(data)
+
+                        observableList[currId] = (Sprite(currId, data, info.format.name))
                     }
 
                 }
-                return false
-            }
-        }
 
-        Thread(task).start()
+            } catch(ex: Exception) {
+                Dialogue.showWarning("Could not import image=${file.name}.").showAndWait()
+                return
+            }
+
+        }
 
     }
 
