@@ -180,6 +180,7 @@ class Controller : Initializable {
                 colorsL.text = set.size.toString()
 
             } else {
+                imageView.image = null
                 resetLabels()
             }
 
@@ -226,7 +227,7 @@ class Controller : Initializable {
 
                 for (sprite in observableList) {
                     if (Arrays.equals(sprite.data, data)) {
-                        Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and ${currId}.")).showAndWait()
+                        Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and $currId.")).showAndWait()
                         return
                     }
                 }
@@ -428,6 +429,8 @@ class Controller : Initializable {
                     Platform.runLater({ listView.refresh() })
 
                 }
+
+                Platform.runLater({imageView.image = null})
                 return true
             }
         }
