@@ -165,7 +165,7 @@ class Controller : Initializable {
                 formatNameL.text = info.format.name
                 fileSizeL.text = BSPUtils.readableFileSize(newValue.data?.size?.toLong()!!)
                  bppL.text = info.bitsPerPixel.toString()
-                transL.text = info.isTransparent.toString()
+                transL.text = (if (info.isTransparent) "Yes" else "No")
                 compAL.text = info.compressionAlgorithm
 
                 val bimage = ImageIO.read(ByteArrayInputStream(newValue.data))
@@ -181,14 +181,7 @@ class Controller : Initializable {
                 colorsL.text = set.size.toString()
 
             } else {
-                idL.text = ""
-                imageSizeL.text = ""
-                formatNameL.text = ""
-                fileSizeL.text = ""
-                bppL.text = ""
-                transL.text = ""
-                compAL.text = ""
-                colorsL.text = ""
+                resetLabels()
             }
 
         })
@@ -593,6 +586,17 @@ class Controller : Initializable {
 
     }
 
+    private fun resetLabels() {
+        idL.text = "-1"
+        imageSizeL.text = "0 x 0"
+        formatNameL.text = "None"
+        fileSizeL.text = "0 b"
+        bppL.text = "0"
+        transL.text = "No"
+        compAL.text = "None"
+        colorsL.text = "0"
+    }
+
     @FXML
     fun exportBinary() {
         if (observableList.isEmpty()) {
@@ -668,15 +672,7 @@ class Controller : Initializable {
         imageView.image = null
         observableList.clear()
         filteredList.clear()
-
-        idL.text = ""
-        imageSizeL.text = ""
-
-        formatNameL.text = ""
-        fileSizeL.text = ""
-        bppL.text = ""
-        transL.text = ""
-        compAL.text = ""
+        resetLabels()
     }
 
     @FXML

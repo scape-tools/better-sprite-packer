@@ -178,49 +178,49 @@
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                            <children>
                               <Label text="Id:" />
-                              <Label fx:id="idL" />
+                              <Label fx:id="idL" text="-1" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
                               <Label text="Image Size:" />
-                              <Label fx:id="imageSizeL" />
+                              <Label fx:id="imageSizeL" text="0 x 0" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
                            <children>
                               <Label text="Colors:" />
-                              <Label fx:id="colorsL" />
+                              <Label fx:id="colorsL" text="0" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
                               <Label text="File Size:" />
-                              <Label fx:id="fileSizeL" />
+                              <Label fx:id="fileSizeL" text="0 b" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
                            <children>
                               <Label text="Format Name:" />
-                              <Label fx:id="formatNameL" />
+                              <Label fx:id="formatNameL" text="None" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <children>
                               <Label text="Transparent:" />
-                              <Label fx:id="transL" />
+                              <Label fx:id="transL" text="No" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4">
                            <children>
                               <Label text="Compression Algorithm:" />
-                              <Label fx:id="compAL" />
+                              <Label fx:id="compAL" text="None" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <children>
                               <Label text="Bits Per Pixel:" />
-                              <Label fx:id="bppL" />
+                              <Label fx:id="bppL" text="0" />
                            </children>
                         </VBox>
                      </children>
