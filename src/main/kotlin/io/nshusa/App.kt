@@ -84,7 +84,6 @@ class App : Application() {
         stage.scene = scene
         stage.icons?.add(Image(App::class.java.getResourceAsStream("/icons/icon.png")))
         stage.centerOnScreen()
-        stage.sizeToScene()
         stage.initStyle(StageStyle.UNDECORATED)
         stage.show()
     }
