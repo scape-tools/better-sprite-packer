@@ -165,7 +165,7 @@
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                            <children>
                               <Label text="OffsetX" />
-                              <TextField fx:id="offsetXTf" alignment="CENTER">
+                              <TextField fx:id="offsetXTf" alignment="CENTER" onKeyPressed="#handleKeyEventPressed">
                                  <VBox.margin>
                                     <Insets left="5.0" right="5.0" />
                                  </VBox.margin>
@@ -175,7 +175,7 @@
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                            <children>
                               <Label text="OffsetY" />
-                              <TextField fx:id="offsetYTf" alignment="CENTER">
+                              <TextField fx:id="offsetYTf" alignment="CENTER" onKeyPressed="#handleKeyEventPressed">
                                  <VBox.margin>
                                     <Insets left="5.0" right="5.0" />
                                  </VBox.margin>
