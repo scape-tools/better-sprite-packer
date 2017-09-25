@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage
 import java.io.ByteArrayInputStream
 import javax.imageio.ImageIO
 
-class Sprite(val id: Int, var data: ByteArray?, val format: String): Comparable<Sprite> {
+class Sprite(val id: Int, var data: ByteArray, val format: String): Comparable<Sprite> {
 
     var drawOffsetX = 0
     var drawOffsetY = 0
@@ -20,7 +20,7 @@ class Sprite(val id: Int, var data: ByteArray?, val format: String): Comparable<
     }
 
     fun getLength() : Int {
-        return if (data == null || data?.size == 0) 0 else data?.size!!
+        return if (data.isEmpty()) 0 else data.size
     }
 
     fun toBufferdImage() : BufferedImage {

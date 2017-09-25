@@ -32,6 +32,18 @@
 	-fx-background-color: #1F1F1F;
 }
 
+#scanBtn {
+	-fx-graphic: url('/icons/scan_32.png');
+}
+
+#scanBtn:hover {
+	-fx-background-color: #292929;
+}
+
+#scanBtn:pressed {
+	-fx-background-color: #1F1F1F;
+}
+
 #exportBinaryBtn {
 	-fx-graphic: url('/icons/export_binary_32.png');
 }

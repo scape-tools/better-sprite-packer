@@ -85,7 +85,7 @@
                <children>
                   <Button fx:id="importBinaryBtn" mnemonicParsing="false" onAction="#importBinary" text="Import">
                      <tooltip>
-                        <Tooltip text="Use this button to load your sprites from the sprites archive" />
+                        <Tooltip text="Use this button to import main_file_sprites.dat" />
                      </tooltip>
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -93,7 +93,7 @@
                   </Button>
                   <Button fx:id="exportBinaryBtn" mnemonicParsing="false" onAction="#exportBinary" text="Export">
                      <tooltip>
-                        <Tooltip text="Use this button to pack the sprites" />
+                        <Tooltip text="Use this button to export sprites into main_file_sprites.dat" />
                      </tooltip>
                      <HBox.margin>
                         <Insets right="5.0" />
@@ -103,15 +103,29 @@
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
+                     <tooltip>
+                        <Tooltip text="Use this button to import raw sprites" />
+                     </tooltip>
                   </Button>
                   <Button fx:id="exportImageBtn" mnemonicParsing="false" onAction="#exportImages" text="Export">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
+                     <tooltip>
+                        <Tooltip text="Use this button to export sprites into their raw format" />
+                     </tooltip>
+                  </Button>
+                  <Button fx:id="scanBtn" mnemonicParsing="false" onAction="#scanDuplicate" text="Scan">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                     <tooltip>
+                        <Tooltip text="Use this button to check for any duplicates" />
+                     </tooltip>
                   </Button>
                   <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#clearProgram" text="Clear">
                      <tooltip>
-                        <Tooltip text="Use this button to clear this editor" />
+                        <Tooltip text="Use this button to reset the program" />
                      </tooltip>
                      <HBox.margin>
                         <Insets right="5.0" />

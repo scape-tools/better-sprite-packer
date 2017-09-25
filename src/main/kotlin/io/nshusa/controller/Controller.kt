@@ -18,6 +18,9 @@ import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
+import javafx.scene.layout.GridPane
+import javafx.scene.layout.Priority
+import javafx.scene.layout.Region
 import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
 import org.apache.commons.imaging.Imaging
@@ -34,9 +37,9 @@ import kotlin.experimental.and
 
 class Controller : Initializable {
 
-    var offsetX = 0.0
+    private var offsetX = 0.0
 
-    var offsetY = 0.0
+    private var offsetY = 0.0
 
     @FXML
     lateinit var listView: ListView<Sprite>
@@ -79,7 +82,7 @@ class Controller : Initializable {
 
     lateinit var placeholderIcon: Image
 
-    val userHome = Paths.get(System.getProperty("user.home"))
+    private val userHome = Paths.get(System.getProperty("user.home"))
 
     private val observableList: ObservableList<Sprite> = FXCollections.observableArrayList()
 
@@ -152,7 +155,7 @@ class Controller : Initializable {
 
         listView.selectionModel.selectedItemProperty().addListener({ _, _, newValue ->
 
-            if (newValue != null && !newValue.data?.isEmpty()!!) {
+            if (newValue != null && !newValue.data.isEmpty()) {
                 imageView.image = newValue.toImage()
 
                 val info = Imaging.getImageInfo(newValue.data)
@@ -162,7 +165,7 @@ class Controller : Initializable {
                 offsetYTf.text = newValue.drawOffsetY.toString()
                 imageSizeL.text = "${info.width} x ${info.height}"
                 formatNameL.text = info.format.name
-                fileSizeL.text = BSPUtils.readableFileSize(newValue.data?.size?.toLong()!!)
+                fileSizeL.text = BSPUtils.readableFileSize(newValue.data.size.toLong())
                  bppL.text = info.bitsPerPixel.toString()
                 transL.text = (if (info.isTransparent) "Yes" else "No")
                 compAL.text = info.compressionAlgorithm
@@ -207,6 +210,84 @@ class Controller : Initializable {
     }
 
     @FXML
+    fun scanDuplicate() {
+        if (observableList.isEmpty()) {
+            Dialogue.showInfo("There is nothing to scan silly!").showAndWait()
+            return
+        }
+
+        val list = mutableListOf<String>()
+        val set = mutableSetOf<Int>()
+
+        for (sprite in observableList) {
+
+            // don't compare placeholders
+            if (sprite.data.isEmpty()) {
+                continue
+            }
+
+            for (toCheck in observableList) {
+
+                if (set.contains(toCheck.id)) {
+                    continue
+                }
+
+                if (toCheck.data.isEmpty()) {
+                    continue
+                }
+
+                // don't compare the same image
+                if (sprite.id == toCheck.id) {
+                    continue
+                }
+
+                if (Arrays.equals(sprite.data, toCheck.data)) {
+                    list.add("${sprite.id} and ${toCheck.id}")
+                    set.add(sprite.id)
+                }
+
+            }
+
+        }
+
+        if (list.isEmpty()) {
+            Dialogue.showInfo("There are no duplicates!").showAndWait()
+        } else {
+
+            val alert = Alert(Alert.AlertType.WARNING)
+            alert.title = "Duplicate Scanner"
+            alert.headerText = "Found ${set.size} Duplicates!"
+            alert.isResizable = false
+
+            val sb = StringBuilder()
+
+            for (line in list) {
+                sb.appendln(line)
+            }
+
+            val ta = TextArea(sb.toString())
+            ta.isEditable = false
+            ta.isWrapText = true
+
+            ta.maxWidth = Double.MAX_VALUE
+            ta.maxHeight = Double.MAX_VALUE
+
+            GridPane.setVgrow(ta, Priority.ALWAYS)
+            GridPane.setHgrow(ta, Priority.ALWAYS)
+
+            val gridPane = GridPane()
+            gridPane.maxWidth = Double.MAX_VALUE
+            gridPane.add(ta, 0, 0)
+
+            alert.dialogPane.content = gridPane
+
+            alert.show()
+
+        }
+
+    }
+
+    @FXML
     fun importImages() {
 
         val chooser = FileChooser()
@@ -224,13 +305,6 @@ class Controller : Initializable {
                 val currId = Integer.parseInt(BSPUtils.getFilePrefix(file))
 
                 val data = Files.readAllBytes(file.toPath())
-
-                for (sprite in observableList) {
-                    if (Arrays.equals(sprite.data, data)) {
-                        Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and $currId.")).showAndWait()
-                        return
-                    }
-                }
 
                 if (currId == observableList.size) {
 
@@ -351,7 +425,7 @@ class Controller : Initializable {
 
                 for (sprite in observableList) {
                     if (Arrays.equals(sprite.data, fileData)) {
-                        Platform.runLater({ Dialogue.showWarning(String.format("Detected a duplicate image at index=${sprite.id} and ${selectedItem.id}")).showAndWait() })
+                        Platform.runLater({ Dialogue.showWarning(String.format("Detected a duplicate image at ${sprite.id} and ${selectedItem.id}")).showAndWait() })
                         return false
                     }
                 }
@@ -381,7 +455,7 @@ class Controller : Initializable {
 
             override fun call(): Boolean {
                 for (sprite in filteredList) {
-                    if (sprite.data!!.isEmpty()) {
+                    if (sprite.data.isEmpty()) {
                         continue
                     }
                     ImageIO.write(sprite.toBufferdImage(), sprite.format, File(selectedDirectory, "$sprite.${sprite.format}"))
@@ -416,7 +490,7 @@ class Controller : Initializable {
 
                         for (i in start downTo 0) {
                             // truncates placeholders
-                            if (observableList[i].data?.isEmpty()!!) {
+                            if (observableList[i].data.isEmpty()) {
                                 Platform.runLater({ observableList.removeAt(i) })
                             } else {
                                 break
