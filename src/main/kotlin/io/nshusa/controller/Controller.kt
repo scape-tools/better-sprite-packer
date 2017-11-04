@@ -82,7 +82,7 @@ class Controller : Initializable {
 
     lateinit var placeholderIcon: Image
 
-    private val userHome = Paths.get(System.getProperty("user.home"))
+    private val userHome = Paths.get(".")
 
     private val observableList: ObservableList<Sprite> = FXCollections.observableArrayList()
 
