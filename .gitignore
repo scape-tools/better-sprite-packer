@@ -1,5 +1,4 @@
-
-# Created by https://www.gitignore.io/api/java,gradle,eclipse,windows,intellij
+# Created by https://www.gitignore.io/api/java,gradle,kotlin,eclipse,intellij
 
 ### Eclipse ###
 
@@ -54,10 +53,10 @@ local.properties
 .worksheet
 
 ### Eclipse Patch ###
-# Eclipse Core		
+# Eclipse Core
 .project
 
-# JDT-specific (Eclipse Java Development Tools)		
+# JDT-specific (Eclipse Java Development Tools)
 .classpath
 
 ### Intellij ###
@@ -105,6 +104,9 @@ atlassian-ide-plugin.xml
 # Cursive Clojure plugin
 .idea/replstate.xml
 
+# Ruby plugin and RubyMine
+/.rakeTasks
+
 # Crashlytics plugin (for Android Studio and IntelliJ)
 com_crashlytics_export_strings.xml
 crashlytics.properties
@@ -146,26 +148,18 @@ fabric.properties
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-### Windows ###
-# Windows thumbnail cache files
-Thumbs.db
-ehthumbs.db
-ehthumbs_vista.db
+### Kotlin ###
+# Compiled class file
 
-# Folder config file
-Desktop.ini
+# Log file
 
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
+# BlueJ files
 
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
+# Mobile Tools for Java (J2ME)
 
-# Windows shortcuts
-*.lnk
+# Package Files #
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 
 ### Gradle ###
 .gradle
@@ -183,4 +177,5 @@ gradle-app.setting
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
 
-# End of https://www.gitignore.io/api/java,gradle,eclipse,windows,intellij
+
+# End of https://www.gitignore.io/api/java,gradle,kotlin,eclipse,intellij
