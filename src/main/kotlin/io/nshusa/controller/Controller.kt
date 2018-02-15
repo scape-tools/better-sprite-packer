@@ -68,18 +68,6 @@ class Controller : Initializable {
     @FXML
     lateinit var fileSizeL: Label
 
-    @FXML
-    lateinit var formatNameL: Label
-
-    @FXML
-    lateinit var transL: Label
-
-    @FXML
-    lateinit var compAL: Label
-
-    @FXML
-    lateinit var bppL: Label
-
     lateinit var placeholderIcon: Image
 
     private val userHome = Paths.get(".")
@@ -164,11 +152,7 @@ class Controller : Initializable {
                 offsetXTf.text = newValue.drawOffsetX.toString()
                 offsetYTf.text = newValue.drawOffsetY.toString()
                 imageSizeL.text = "${info.width} x ${info.height}"
-                formatNameL.text = info.format.name
                 fileSizeL.text = BSPUtils.readableFileSize(newValue.data.size.toLong())
-                 bppL.text = info.bitsPerPixel.toString()
-                transL.text = (if (info.isTransparent) "Yes" else "No")
-                compAL.text = info.compressionAlgorithm
 
                 val bimage = ImageIO.read(ByteArrayInputStream(newValue.data))
 
@@ -600,11 +584,7 @@ class Controller : Initializable {
     private fun resetLabels() {
         idL.text = "-1"
         imageSizeL.text = "0 x 0"
-        formatNameL.text = "None"
         fileSizeL.text = "0 b"
-        bppL.text = "0"
-        transL.text = "No"
-        compAL.text = "None"
         colorsL.text = "0"
     }
 
