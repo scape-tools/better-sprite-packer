@@ -20,7 +20,6 @@ import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Priority
-import javafx.scene.layout.Region
 import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
 import org.apache.commons.imaging.Imaging
@@ -280,13 +279,17 @@ class Controller : Initializable {
 
         val sortedFiles = selectedFiles.toTypedArray()
 
-        BSPUtils.sortFiles(sortedFiles)
-
         for (i in 0 until sortedFiles.size) {
             val file = sortedFiles[i]
             try {
 
-                val currId = Integer.parseInt(BSPUtils.getFilePrefix(file))
+                var currId = observableList.size
+
+                try {
+                    currId = Integer.parseInt(BSPUtils.getFilePrefix(file))
+                } catch (ex: Exception) {
+
+                }
 
                 val data = Files.readAllBytes(file.toPath())
 
