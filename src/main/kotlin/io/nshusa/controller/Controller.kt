@@ -4,6 +4,7 @@ import io.nshusa.App
 import io.nshusa.component.Sprite
 import io.nshusa.util.Dialogue
 import io.nshusa.util.BSPUtils
+import io.nshusa.util.ImageUtils
 import javafx.application.Platform
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
@@ -20,9 +21,11 @@ import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Priority
+import javafx.scene.paint.Color
 import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
 import org.apache.commons.imaging.Imaging
+import java.awt.image.DataBufferInt
 import java.io.*
 import java.net.URL
 import java.nio.ByteBuffer
@@ -39,6 +42,9 @@ class Controller : Initializable {
     private var offsetX = 0.0
 
     private var offsetY = 0.0
+
+    @FXML
+    lateinit var colorPicker: ColorPicker
 
     @FXML
     lateinit var listView: ListView<Sprite>
@@ -78,8 +84,9 @@ class Controller : Initializable {
     private lateinit var displayedImage: Image
 
     override fun initialize(location: URL?, resource: ResourceBundle?) {
-        listView.selectionModel.selectionMode = SelectionMode.MULTIPLE
+        colorPicker.value = Color.WHITE
 
+        listView.selectionModel.selectionMode = SelectionMode.MULTIPLE
         try {
             placeholderIcon = Image("icons/placeholder.png")
         } catch (ex: Exception) {
@@ -189,6 +196,23 @@ class Controller : Initializable {
                 offsetYTf.text = offsetYTf.text.substring(0, 3)
             }
         })
+
+    }
+
+    @FXML
+    fun setColorInImagesTransparent() {
+        val selectedItems = listView.selectionModel.selectedItems ?: return
+
+        for (selectedItem in selectedItems) {
+            val bimage = ImageUtils.imageToBufferedImage(ImageUtils.makeColorTransparent(selectedItem.toBufferdImage(), ImageUtils.fxColorToAwtColor(colorPicker.value)))
+            val bos = ByteArrayOutputStream()
+
+            ImageIO.write(bimage, "png", bos)
+
+            selectedItem.data = bos.toByteArray()
+        }
+
+        listView.refresh()
 
     }
 
