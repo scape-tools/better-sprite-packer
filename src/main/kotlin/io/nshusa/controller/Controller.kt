@@ -551,6 +551,8 @@ class Controller : Initializable {
             return
         }
 
+        val bspFormat = formatChoiceBox.selectionModel.selectedItem ?: return
+
         val task: Task<Boolean> = object : Task<Boolean>() {
 
             override fun call(): Boolean {
@@ -575,7 +577,7 @@ class Controller : Initializable {
 
                 for (i in 0 until entries) {
                     try {
-                        val dataOffset = ((metaBuf.get().toInt() and 0xFF) shl 16) + ((metaBuf.get().toInt() and 0xFF) shl 8) + (metaBuf.get().toInt() and 0xFF)
+                        val dataOffset = if (bspFormat == BSPFormat.BSP_3) ((metaBuf.get().toInt() and 0xFF) shl 16) + ((metaBuf.get().toInt() and 0xFF) shl 8) + (metaBuf.get().toInt() and 0xFF) else metaBuf.int and 0xFFFFFF
                         val length = ((metaBuf.get().toInt() and 0xFF) shl 16) + ((metaBuf.get().toInt() and 0xFF) shl 8) + (metaBuf.get().toInt() and 0xFF)
                         val offsetX = (metaBuf.short and 0xFF).toInt()
                         val offsetY = (metaBuf.short and 0xFF).toInt()
@@ -632,6 +634,8 @@ class Controller : Initializable {
         chooser.initialDirectory = userHome.toFile()
         val selectedDirectory = chooser.showDialog(App.mainStage) ?: return
 
+        val bspFormat = formatChoiceBox.selectionModel.selectedItem ?: return
+
         val task: Task<Boolean> = object : Task<Boolean>() {
 
             override fun call(): Boolean {
@@ -640,7 +644,13 @@ class Controller : Initializable {
                 observableList.forEach { dataLength += it.getLength() }
 
                 val dataBuf = ByteBuffer.allocate(dataLength)
-                val metaBuf = ByteBuffer.allocate(observableList.size * 10)
+
+                var metaBufBlockSize = 10
+                if (bspFormat == BSPFormat.BSP_4) {
+                    metaBufBlockSize++
+                }
+
+                val metaBuf = ByteBuffer.allocate(observableList.size * metaBufBlockSize)
 
                 val signature = ByteArray(3)
                 signature[0] - 'b'.toByte()
@@ -655,6 +665,9 @@ class Controller : Initializable {
                     val length = sprite.getLength()
 
                     // data offset
+                    if (bspFormat == BSPFormat.BSP_4) {
+                        metaBuf.put((dataOffset shr 24).toByte())
+                    }
                     metaBuf.put((dataOffset shr 16).toByte())
                     metaBuf.put((dataOffset shr 8).toByte())
                     metaBuf.put(dataOffset.toByte())
