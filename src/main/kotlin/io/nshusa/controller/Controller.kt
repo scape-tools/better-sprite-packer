@@ -573,11 +573,17 @@ class Controller : Initializable {
 
                 val metaBuf = ByteBuffer.wrap(Files.readAllBytes(metaFile.toPath()))
 
-                val entries = metaBuf.capacity() / 10
+                var metaBufBlockSize = 10
+                if (bspFormat == BSPFormat.BSP_4) {
+                    metaBufBlockSize++
+                }
+
+                val entries = metaBuf.capacity() / metaBufBlockSize
 
                 for (i in 0 until entries) {
                     try {
-                        val dataOffset = if (bspFormat == BSPFormat.BSP_3) ((metaBuf.get().toInt() and 0xFF) shl 16) + ((metaBuf.get().toInt() and 0xFF) shl 8) + (metaBuf.get().toInt() and 0xFF) else metaBuf.int and 0xFFFFFF
+                        val dataOffset = if (bspFormat == BSPFormat.BSP_3) ((metaBuf.get().toInt() and 0xFF) shl 16) + ((metaBuf.get().toInt() and 0xFF) shl 8) + (metaBuf.get().toInt() and 0xFF)
+                        else metaBuf.int and 0xFFFFFF
                         val length = ((metaBuf.get().toInt() and 0xFF) shl 16) + ((metaBuf.get().toInt() and 0xFF) shl 8) + (metaBuf.get().toInt() and 0xFF)
                         val offsetX = (metaBuf.short and 0xFF).toInt()
                         val offsetY = (metaBuf.short and 0xFF).toInt()
