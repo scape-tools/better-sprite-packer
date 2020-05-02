@@ -2,6 +2,7 @@ package io.nshusa.controller
 
 import io.nshusa.App
 import io.nshusa.component.Sprite
+import io.nshusa.util.BSPFormat
 import io.nshusa.util.Dialogue
 import io.nshusa.util.BSPUtils
 import io.nshusa.util.ImageUtils
@@ -73,6 +74,9 @@ class Controller : Initializable {
     @FXML
     lateinit var fileSizeL: Label
 
+    @FXML
+    lateinit var formatChoiceBox: ChoiceBox<BSPFormat>
+
     lateinit var placeholderIcon: Image
 
     private val userHome = Paths.get(".")
@@ -84,6 +88,8 @@ class Controller : Initializable {
     private lateinit var displayedImage: Image
 
     override fun initialize(location: URL?, resource: ResourceBundle?) {
+        formatChoiceBox.items.addAll(BSPFormat.values())
+        formatChoiceBox.value = BSPFormat.BSP_4
         colorPicker.value = Color.WHITE
 
         listView.selectionModel.selectionMode = SelectionMode.MULTIPLE

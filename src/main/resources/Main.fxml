@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
@@ -21,7 +22,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="root" onMouseDragged="#handleMouseDragged" onMousePressed="#handleMousePressed" prefHeight="503.0" prefWidth="765.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.nshusa.controller.Controller">
+<BorderPane fx:id="root" onMouseDragged="#handleMouseDragged" onMousePressed="#handleMousePressed" prefHeight="503.0" prefWidth="765.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.nshusa.controller.Controller">
    <left>
       <VBox alignment="CENTER" BorderPane.alignment="TOP_CENTER">
          <children>
@@ -230,12 +231,25 @@
                <content>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Label styleClass="text-white" text="Transparent color" />
-                        <ColorPicker fx:id="colorPicker">
+                        <Label styleClass="text-white" text="Transparent color">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin></Label>
+                        <ColorPicker fx:id="colorPicker" prefWidth="150.0">
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </ColorPicker>
+                        <Label styleClass="text-white" text="Format">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <ChoiceBox id="formatChoiceBox" fx:id="formatChoiceBox" prefWidth="150.0">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </ChoiceBox>
                      </children>
                   </VBox>
                </content>
