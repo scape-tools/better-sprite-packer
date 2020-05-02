@@ -8,7 +8,7 @@ plugins {
 }
 
 javafx {
-    version = "11"
+    version = "14"
     modules("javafx.controls", "javafx.fxml", "javafx.swing")
 }
 
@@ -24,9 +24,9 @@ dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.apache.commons", "commons-imaging", "1.0-alpha1")
-    implementation("org.openjfx", "javafx-controls", javafx.version)
-    implementation("org.openjfx", "javafx-fxml", javafx.version)
-    implementation("org.openjfx", "javafx-swing", javafx.version)
+    runtimeOnly("org.openjfx", "javafx-controls", "${javafx.version}:mac")
+    runtimeOnly("org.openjfx", "javafx-fxml", "${javafx.version}:mac")
+    runtimeOnly("org.openjfx", "javafx-swing", "${javafx.version}:mac")
 }
 
 var mainClassNamePath = "io.nshusa.App"
@@ -38,11 +38,9 @@ application {
 val fatJar = task("fatJar", type = Jar::class) {
     baseName = "bsp4-gui.jar"
     manifest {
-        attributes["Implementation-Title"] = "Gradle Jar File Example"
         attributes["Main-Class"] = mainClassNamePath
     }
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
-    with(tasks.jar.get() as CopySpec)
 }
 
 tasks {
